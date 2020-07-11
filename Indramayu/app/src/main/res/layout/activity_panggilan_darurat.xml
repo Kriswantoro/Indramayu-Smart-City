@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg1">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btn_ktr_polisi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="150dp"
+        android:elevation="8dp"
+        app:cardCornerRadius="5dp"
+        app:cardUseCompatPadding="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bgbutton5">
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/p"
+                android:id="@+id/foto_polisi"/>
+
+            <TextView
+                android:id="@+id/p_polisi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Kantor Polisi"
+                android:layout_toRightOf="@id/foto_polisi"
+                android:textSize="25dp"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:layout_marginRight="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"/>
+
+            <LinearLayout
+                android:layout_toRightOf="@id/foto_polisi"
+                android:layout_below="@id/p_polisi"
+                android:layout_marginLeft="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+    </androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btn_rumah_sakit"
+        android:layout_below="@+id/btn_ktr_polisi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_centerInParent="true"
+        android:elevation="8dp"
+        app:cardCornerRadius="5dp"
+        app:cardUseCompatPadding="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bgbutton3">
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/rs"
+                android:id="@+id/foto_rs"/>
+
+            <TextView
+                android:id="@+id/p_r_sakit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Rumah Sakit"
+                android:layout_toRightOf="@id/foto_rs"
+                android:textSize="25dp"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:layout_marginRight="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"/>
+
+            <LinearLayout
+                android:layout_toRightOf="@id/foto_rs"
+                android:layout_below="@id/p_r_sakit"
+                android:layout_marginLeft="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btn_p_kebakaran"
+        android:layout_below="@+id/btn_rumah_sakit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_centerInParent="true"
+        android:elevation="8dp"
+        app:cardCornerRadius="5dp"
+        app:cardUseCompatPadding="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bgbutton4">
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="70dp"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/pk"
+                android:id="@+id/foto_p_kebakaran"/>
+
+            <TextView
+                android:id="@+id/p_p_kebakaran"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Pemadam Kebakaran"
+                android:layout_toRightOf="@id/foto_p_kebakaran"
+                android:textSize="25dp"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:layout_marginRight="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"/>
+
+            <LinearLayout
+                android:layout_toRightOf="@id/foto_p_kebakaran"
+                android:layout_below="@id/p_p_kebakaran"
+                android:layout_marginLeft="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg1">
+
+<androidx.appcompat.widget.AppCompatButton
+    android:id="@+id/buttonSignUp"
+    style="@style/Widget.AppCompat.Button.Borderless"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentRight="true"
+    android:gravity="center"
+    android:text="Daftar"
+    android:textColor="@color/blue" />
+
+<ImageView
+    android:id="@+id/image_login"
+    android:layout_centerHorizontal="true"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="120dp"
+    android:src="@drawable/icon2"
+    android:layout_gravity="center"/>
+
+    <TextView
+        android:layout_centerHorizontal="true"
+        android:id="@+id/text_1"
+        android:layout_below="@id/image_login"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/blue"
+        android:text="Ketikan Nomor Telepon"
+        android:layout_gravity="center"
+        android:textStyle="bold"
+        android:textSize="24sp"/>
+    <TextView
+        android:layout_centerHorizontal="true"
+        android:id="@+id/text_2"
+        android:layout_below="@id/text_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/blue"
+        android:text="Untuk Masuk"
+        android:layout_gravity="center"
+        android:textStyle="bold"
+        android:textSize="24sp"/>
+
+
+<LinearLayout
+    android:layout_marginBottom="200dp"
+    android:layout_gravity="center"
+    android:layout_above="@id/btn_lanjutkan"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="62dp"
+        android:layout_height="52dp"
+        android:elevation="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="+62"
+            android:textAlignment="center"
+            android:textColor="#000"
+            android:textSize="14sp"
+            android:textStyle="bold"/>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginLeft="12dp"
+        android:elevation="8dp">
+
+        <EditText
+            android:background="@android:color/transparent"
+            android:paddingLeft="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Nomor Telepon Kamu"
+            android:layout_gravity="center_vertical"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:inputType="number"
+            android:ems="10"
+            android:textColor="#000"/>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>
+
+<Button
+    android:id="@+id/btn_lanjutkan"
+    android:layout_width="match_parent"
+    android:layout_height="?actionBarSize"
+    android:background="@color/blue"
+    android:text="Lanjutkan"
+    android:textColor="#ffffff"
+    android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

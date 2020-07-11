@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg1"
+    tools:context=".ui.akun.TentangISCActivity">
+
+        <RelativeLayout
+            android:id="@+id/i1"
+            android:layout_margin="18dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:padding="8dp"
+                android:id="@+id/icon_apk"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/icon"
+                android:layout_width="60dp"
+                android:layout_height="60dp"/>
+
+            <TextView
+                android:id="@+id/nama_apk"
+                android:textSize="15sp"
+                android:textColor="@color/black"
+                android:text="Indramayu Smart City"
+                android:layout_marginTop="15dp"
+                android:textStyle="bold"
+                android:layout_toRightOf="@+id/icon_apk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/versi"
+                android:textSize="12sp"
+                android:layout_below="@+id/nama_apk"
+                android:layout_toRightOf="@+id/icon_apk"
+                android:textColor="@color/black"
+                android:text="1.1.0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </RelativeLayout>
+
+            <TextView
+                android:id="@+id/p1"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_below="@+id/i1"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:minLines="6"
+                android:textColor="@color/black"
+                android:text="Dengan Indramayu Smart City dapat dengan mudah melakukan pengaduan dan melakukan saran terkait masalah yang ada di Kab. Indramayu." />
+
+            <TextView
+                android:id="@+id/p2"
+                android:layout_width="match_parent"
+                android:layout_height="92dp"
+                android:layout_below="@+id/p1"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:minLines="6"
+                android:text="Dengan Indramayu Smart City, Anda dapat menemukan tempat-tempat lokasi seperti: tempat ibadah, kantor polisi, rumah sakit, dan tempat wisata yang ada di Kab. Indramayu dan Anda dapat juga diarahkan melalui Maps"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/p3"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@+id/p2"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:minLines="6"
+                android:text="Ayo unduh Indramayu Smart City Sekarang di PlayStore dan nikmati semua fitur-fiturnya!"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/p4"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_below="@+id/p3"
+                android:layout_marginTop="50dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:minLines="6"
+                android:text="-Tim Mahasiswa Polindra"
+                android:textColor="@color/black"
+                android:textStyle="italic" />
+
+
+
+    <Button
+        android:layout_below="@+id/p4"
+        android:id="@+id/btn_darurat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/bgbutton"
+        android:paddingLeft="60dp"
+        android:paddingRight="64dp"
+        android:text="CEK VERSI TERBARU"
+        android:textColor="#fff"
+        android:textSize="14sp" />
+
+</RelativeLayout>

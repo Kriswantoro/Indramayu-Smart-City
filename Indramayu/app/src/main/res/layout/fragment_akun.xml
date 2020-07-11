@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg1"
+    tools:context=".ui.akun.AkunFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp">
+
+
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/foto_profil"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_bg_home3"
+            app:civ_border_color="@color/blue"
+            app:civ_border_width="2dp" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/edit_profil"
+            style="@style/FabStyle"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="70dp"
+            android:layout_marginTop="50dp"
+            android:onClick="pickProfileImage"
+            app:fabSize="mini"
+            tools:ignore="OnClick" />
+
+            <TextView
+                android:id="@+id/nama_pengguna"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/foto_profil"
+                android:text="Contoh"
+                android:textColor="#000"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/nomor_pengguna"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/nama_pengguna"
+                android:text="+628" />
+
+        <TextView
+            android:id="@+id/riwayat_pengaduan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/nomor_pengguna"
+            android:layout_margin="8dp"
+            android:drawableStart="@drawable/ic_restore_black_24dp"
+            android:drawablePadding="8dp"
+            android:text="Riwayat Pengaduan"
+            android:textColor="#000"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/line1"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@id/riwayat_pengaduan"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="#DDDDDD" />
+
+<!--        <TextView-->
+<!--            android:layout_below="@id/line1"-->
+<!--            android:id="@+id/SdK"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_margin="8dp"-->
+<!--            android:drawableLeft="@drawable/ic_assignment_black_24dp"-->
+<!--            android:drawablePadding="8dp"-->
+<!--            android:text="Syarat dan Ketentuan"-->
+<!--            android:textColor="#000"-->
+<!--            android:textStyle="bold" />-->
+<!--        <View-->
+<!--            android:id="@+id/line2"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="2dp"-->
+<!--            android:layout_below="@+id/SdK"-->
+<!--            android:layout_marginBottom="4dp"-->
+<!--            android:layout_marginTop="4dp"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            android:layout_marginEnd="8dp"-->
+<!--            android:background="#DDDDDD" />-->
+
+        <TextView
+            android:layout_below="@id/line1"
+            android:id="@+id/tentang_apk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:drawableLeft="@drawable/ic_phone_iphone_black_24dp"
+            android:drawablePadding="8dp"
+            android:text="Tentang Aplikasi"
+            android:textColor="#000"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/line3"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@id/tentang_apk"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="#DDDDDD" />
+
+        <Button
+            android:id="@+id/btn_keluar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:text="Keluar"
+            android:layout_below="@id/line3"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/bgbutton"
+            android:textColor="@color/white"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_beranda">
+
+    <fragment
+        android:id="@+id/navigation_beranda"
+        android:name="com.kriswantoro.indramayu.ui.beranda.BerandaFragment"
+        android:label="@string/title_beranda"
+        tools:layout="@layout/fragment_beranda" />
+
+    <fragment
+        android:id="@+id/navigation_saran"
+        android:name="com.kriswantoro.indramayu.ui.saran.SaranFragment"
+        android:label="@string/title_saran"
+        tools:layout="@layout/fragment_saran" />
+
+    <fragment
+        android:id="@+id/navigation_tempat"
+        android:name="com.kriswantoro.indramayu.ui.tempat.TempatFragment"
+        android:label="@string/title_tempat"
+        tools:layout="@layout/fragment_tempat" />
+    <fragment
+        android:id="@+id/navigation_akun"
+        android:name="com.kriswantoro.indramayu.ui.akun.AkunFragment"
+        android:label="@string/title_akun"
+        tools:layout="@layout/fragment_akun" />
+</navigation>
