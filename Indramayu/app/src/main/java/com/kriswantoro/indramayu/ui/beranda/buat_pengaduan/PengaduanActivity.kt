@@ -7,18 +7,36 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
+import com.android.volley.AuthFailureError
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.VolleyError
+import com.android.volley.toolbox.StringRequest
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.sample.setDrawableImage
 import com.github.dhaval2404.imagepicker.sample.setLocalImage
 import com.kriswantoro.indramayu.R
+import com.kriswantoro.indramayu.util.EndPoint
+import com.kriswantoro.indramayu.util.VolleySingleton
 import kotlinx.android.synthetic.main.activity_pengaduan.*
+import kotlinx.android.synthetic.main.activity_pengaduan.btn_ganti_foto
+import kotlinx.android.synthetic.main.activity_register.*
+import org.json.JSONException
+import org.json.JSONObject
 import java.io.File
 
 class PengaduanActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
-    companion object {
+    var judulPengaduan: String = ""
+    lateinit var kategoriPengaduan: String
+    var pesanPengaduan: String = ""
+    var noTelp: String = ""
+    var lokasiPengaduan: String = ""
 
-        private var spinner : Spinner? = null
+    private lateinit var spinner : Spinner
+
+
+    companion object {
         private var arrayAdapter : ArrayAdapter<String>? = null
         private var itemList = arrayOf( "Gelandangan dan Pengemis", "Sampah", "Jalanan dan Rambu Lalulintas", "Banjir", "Mobilitas dan Akses", "Tunawisma/Pengemis", "Kaki Lima Liar", "PJU Rusak", "Tanaman Bermasalah", "Fasilitas Umum", "Parkir Liar", "Pungutan Liar", "Pelanggaran Ketertiban", "Rambu Jalan", "Kebutuhan Sembako", "Orang Hilang", "Iklan Liar")
 
@@ -38,8 +56,13 @@ class PengaduanActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
         setContentView(R.layout.activity_pengaduan)
         spinner = findViewById(R.id.spin_kategori_pengaduan)
         arrayAdapter = ArrayAdapter(applicationContext, android.R.layout.simple_list_item_1, itemList)
-        spinner?.adapter = arrayAdapter
-        spinner?.onItemSelectedListener = this
+        spinner.adapter = arrayAdapter
+        spinner.onItemSelectedListener = this
+
+        btn_buat_pengaduan.setOnClickListener {
+            postPengaduan()
+            Toast.makeText(this, "Sukses!", Toast.LENGTH_LONG).show()
+        }
 
         btn_ganti_foto.setOnClickListener { ImagePicker.with(this)
             // Crop Square image
@@ -77,12 +100,43 @@ class PengaduanActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
         }
     }
 
-    override fun onNothingSelected(parent: AdapterView<*>?) {
-        Toast.makeText(applicationContext, "Nothing Selected", Toast.LENGTH_SHORT).show()
-    }
+    override fun onNothingSelected(parent: AdapterView<*>?) {}
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        var items: String = parent?.getItemAtPosition(position) as String
-//        Toast.makeText(applicationContext, "$items", Toast.LENGTH_SHORT).show()
+        kategoriPengaduan = spinner.selectedItem.toString()
+        Log.e("kategori", kategoriPengaduan)
+//        Toast.makeText(this, kategoriPengaduan, Toast.LENGTH_LONG).show()
+    }
+
+    private fun postPengaduan(){
+        judulPengaduan = judul_pengaduan.text.toString()
+        pesanPengaduan = pesan.text.toString()
+        noTelp = no_tlpn.text.toString()
+        lokasiPengaduan = ed_lokasi_tempat.text.toString()
+
+        val stringRequest = object : StringRequest(Request.Method.POST, EndPoint.URL_POST_PENGADUAN,
+            Response.Listener<String> {response ->
+                try {
+                    val obj = JSONObject(response)
+                    Toast.makeText(applicationContext, obj.getString("message"), Toast.LENGTH_LONG).show()
+                } catch (e: JSONException){
+                    e.printStackTrace()
+                }
+            },
+            Response.ErrorListener { error -> Toast.makeText(applicationContext, error?.message, Toast.LENGTH_LONG).show() }) {
+            @Throws(AuthFailureError::class)
+            override fun getParams(): MutableMap<String, String> {
+                val params = HashMap<String, String>()
+                params["judul_pengaduan"] = judulPengaduan
+                params["kategori"] = kategoriPengaduan
+                params["pesan"] = pesanPengaduan
+                params["foto_pengaduan"] = noTelp
+                params["lokasi_pengaduan"] = lokasiPengaduan
+                return params
+            }
+        }
+
+        //request
+        VolleySingleton.getInstance(this).addToRequestQueue(stringRequest)
     }
 }

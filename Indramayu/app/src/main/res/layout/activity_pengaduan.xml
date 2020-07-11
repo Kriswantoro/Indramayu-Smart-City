@@ -99,7 +99,8 @@
                 android:id="@+id/cv_pesan">
 
                 <EditText
-                    android:layout_below="@+id/id_pesan"
+                    android:id="@+id/pesan"
+                    android:layout_below="@+id/cv_pesan"
                     android:inputType="textMultiLine"
                     android:textColor="#000"
                     android:minLines="6"
