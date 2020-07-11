@@ -36,6 +36,7 @@ class WisataActivity : AppCompatActivity() {
 
         list_wisata.layoutManager = LinearLayoutManager(this)
 
+        //baka get api wis bisa line adapter 40 - 50 masukin ke line 74
         adapter = WisataAdapter(mDataList2) {
             //item adapter udah auto get position
             val intent = Intent(this, MapsActivity::class.java)
