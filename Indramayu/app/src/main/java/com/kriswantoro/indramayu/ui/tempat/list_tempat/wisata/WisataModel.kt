@@ -5,7 +5,8 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 class WisataModel(
-//    var foto_wisata : String,
+    //baka sing api mah ganti string kris
+    var foto_wisata : Int,
     val nama_tempat: String,
     val lat: Double,
     val lng: Double
