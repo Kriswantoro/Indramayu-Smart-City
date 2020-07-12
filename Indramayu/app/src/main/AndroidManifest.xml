@@ -7,6 +7,11 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:networkSecurityConfig="@xml/network_security_config"
@@ -32,16 +37,16 @@
             android:name=".ui.beranda.panggilan_darurat.PanggilanDaruratActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.tempat.list_tempat.RumahSakitActivity"
+            android:name=".ui.tempat.list_tempat.rumah_sakit.RumahSakitActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.tempat.list_tempat.KantorPolisiActivity"
+            android:name=".ui.tempat.list_tempat.kantor_polisi.KantorPolisiActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.tempat.list_tempat.WisataActivity"
+            android:name=".ui.tempat.list_tempat.wisata.WisataActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.tempat.list_tempat.IbadahActivity"
+            android:name=".ui.tempat.list_tempat.ibadah.IbadahActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.akun.edit_akun.EditAkunAktivity"

@@ -1,6 +1,16 @@
-package com.github.dhaval2404.imagepicker.sample.util
+package com.kriswantoro.indramayu.util
 
+import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.util.Base64
+import android.util.Log
+import android.widget.ImageView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.kriswantoro.indramayu.R
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -62,5 +72,37 @@ object FileUtil {
         options.inJustDecodeBounds = true
         BitmapFactory.decodeFile(file.absolutePath, options)
         return Pair(options.outWidth, options.outHeight)
+    }
+
+    fun BitmapToString(bitmap: Bitmap): String? {
+        var bytes = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 80, bytes)
+        val imageByte: ByteArray = bytes.toByteArray()
+        var imageString: String? = null
+
+        try {
+            System.gc()
+            imageString = Base64.encodeToString(imageByte, Base64.DEFAULT)
+            Log.i("Success", "Base64-->" + imageString)
+        } catch (e: OutOfMemoryError) {
+            bytes = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, bytes)
+            imageString = Base64.encodeToString(imageByte, Base64.DEFAULT)
+            Log.e("Out Memory", "Compress: " + imageString)
+        }
+
+        return imageString
+    }
+
+    fun viewImage(context: Context, imageView: ImageView, titleImage: String) {
+        val url = "${EndPoint.BASE}assets/images/user/$titleImage.png"
+        Glide.with(context)
+            .load(url)
+            .placeholder(R.drawable.ic_panorama_black_24dp)
+            .error(R.drawable.ic_panorama_black_24dp)
+            .skipMemoryCache(true) //2
+            .diskCacheStrategy(DiskCacheStrategy.NONE) //3
+            .transform(CircleCrop()) //4
+            .into(imageView)
     }
 }

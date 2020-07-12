@@ -8,8 +8,9 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 class SaranModel (
-    var cv_judul_saran : String,
-    var cv_deskripsi : String
-//    var cv_tanggal_saran : String
+    val idSaran: String,
+    val judulSaran: String,
+    val descSaran: String,
+    val tglSaran: String
 
 ) : Parcelable

@@ -6,11 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg1"
-    tools:context=".ui.tempat.list_tempat.IbadahActivity"
+    tools:context=".ui.tempat.list_tempat.ibadah.IbadahActivity"
     android:orientation="horizontal">
 
     <ScrollView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <androidx.recyclerview.widget.RecyclerView

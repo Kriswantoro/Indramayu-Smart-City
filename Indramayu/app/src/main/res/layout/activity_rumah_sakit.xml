@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg1"
-    tools:context=".ui.tempat.list_tempat.RumahSakitActivity"
+    tools:context=".ui.tempat.list_tempat.rumah_sakit.RumahSakitActivity"
     android:orientation="horizontal">
 
     <ScrollView

@@ -21,5 +21,9 @@ class PengaduanModel (
     var kategori : String,
     var pesan : String,
     var foto_pengaduan : String,
-    var lokasi_pengaduan : String
+    var lokasi_pengaduan : String,
+    var idStatusPengaduan: String,
+    var idStatusPengaduan2: Int,
+    var status: String
+
 ) : Parcelable

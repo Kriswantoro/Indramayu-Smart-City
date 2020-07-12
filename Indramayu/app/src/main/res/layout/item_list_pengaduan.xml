@@ -41,9 +41,10 @@
 
                 <TextView
                     android:id="@+id/list_pengaduan"
-                    android:layout_width="wrap_content"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    android:maxLines="2"
                     android:text="Judul Pengaduan"
                     android:textAllCaps="false"
                     android:textColor="#000"
@@ -71,9 +72,9 @@
 
 
                 <TextView
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="35dp"
-                    android:layout_toLeftOf="@+id/btn_edit"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="35dp"
+                    android:layout_toStartOf="@+id/btn_edit"
                     android:id="@+id/id_diproses"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

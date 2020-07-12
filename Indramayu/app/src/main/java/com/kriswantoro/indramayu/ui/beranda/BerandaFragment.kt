@@ -77,7 +77,10 @@ class BerandaFragment : Fragment() {
                                 objectMenu.getString("kategori"),
                                 objectMenu.getString("pesan"),
                                 objectMenu.getString("foto_pengaduan"),
-                                objectMenu.getString("lokasi_pengaduan")
+                                objectMenu.getString("lokasi_pengaduan"),
+                                objectMenu.getString("id_status_pengaduan"),
+                                objectMenu.getInt("status_pengaduan.id_status_pengaduan"),
+                                objectMenu.getString("status_pengaduan.status")
                             )
                             mDataList.add(menu)
                             val adapter = PengaduanAdapter(mDataList)
