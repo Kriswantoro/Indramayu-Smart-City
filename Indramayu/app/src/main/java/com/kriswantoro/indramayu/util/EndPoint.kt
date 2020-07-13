@@ -23,4 +23,10 @@ object EndPoint {
 
     //postsaran
     val URL_POST_SARAN = URL_ROOT + "postsaran"
+
+    //login
+    val URL_LOGIN = URL_ROOT + "getlogin"
+
+    //register
+    val URL_REGISTER = URL_ROOT + "postregister"
 }

@@ -82,6 +82,7 @@
         android:elevation="8dp">
 
         <EditText
+            android:id="@+id/edtNoTelp"
             android:background="@android:color/transparent"
             android:paddingLeft="16dp"
             android:layout_width="match_parent"
