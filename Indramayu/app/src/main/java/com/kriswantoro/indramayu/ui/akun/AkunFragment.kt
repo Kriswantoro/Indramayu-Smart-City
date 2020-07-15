@@ -59,7 +59,8 @@ class AkunFragment : Fragment() {
                 .setMessage("Apakah anda yakin ingin logout ?")
                 .setPositiveButton("Ya") { _, _ ->
                     SharedPref.getInstance(requireContext()).userLogout()
-                    startActivity(Intent(context, MainActivity::class.java))
+                    startActivity(Intent(context, LoginActivity::class.java))
+                    onDestroy()
                 }
                 .setNegativeButton("Tidak") { _, _ -> }
                 .show()

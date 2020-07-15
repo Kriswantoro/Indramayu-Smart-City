@@ -45,11 +45,11 @@ class WisataActivity : AppCompatActivity() {
                     val obj = JSONObject(response)
 
                     if (!obj.getBoolean("error")) {
-                        Toast.makeText(
-                            applicationContext,
-                            obj.getString("message"),
-                            Toast.LENGTH_SHORT
-                        ).show()
+//                        Toast.makeText(
+//                            applicationContext,
+//                            obj.getString("message"),
+//                            Toast.LENGTH_SHORT
+//                        ).show()
 
                         val array = obj.getJSONArray("data")
                         for (i in 0 until array.length()) {
@@ -64,7 +64,7 @@ class WisataActivity : AppCompatActivity() {
                                     wisataJson.getDouble("lat"),
                                     wisataJson.getDouble("lng"),
                                     wisataJson.getString("kategori_tempat.id_kategori_tempat"),
-                                    wisataJson.getString("kategori_tempat.nama_tempat")
+                                    wisataJson.getString("kategori_tempat.nama_kategori")
                                 )
 
                             mDataList.add(wisata)

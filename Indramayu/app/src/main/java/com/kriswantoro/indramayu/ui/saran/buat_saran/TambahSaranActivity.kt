@@ -34,8 +34,20 @@ class TambahSaranActivity : AppCompatActivity() {
         edtDeskripsi = findViewById(R.id.deskripsi)
 
         btn_kirim_saran.setOnClickListener {
-            addSaran()
-            startActivity(Intent(this, MainActivity::class.java))
+            when {
+                edtJudulSaran.text.isEmpty() -> {
+                    edtJudulSaran.error = "Judul saran tidak boleh kosong"
+                    edtJudulSaran.requestFocus()
+                }
+                edtJudulSaran.text.isEmpty() -> {
+                    edtJudulSaran.error = "Deskripsi tidak boleh kosong"
+                    edtJudulSaran.requestFocus()
+                }
+                else -> {
+                    addSaran()
+                    startActivity(Intent(this, MainActivity::class.java))
+                }
+            }
         }
     }
 

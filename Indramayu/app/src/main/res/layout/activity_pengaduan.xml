@@ -119,38 +119,6 @@
                 android:layout_marginBottom="4dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nomor Telepon"/>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                app:cardCornerRadius="5dp"
-                android:elevation="8dp"
-                app:cardUseCompatPadding="true">
-
-                <EditText
-                    android:id="@+id/no_tlpn"
-                    android:background="@android:color/transparent"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:inputType="phone"
-                    android:textColor="#000"
-                    android:hint=""
-                    android:paddingStart="16dp"/>
-
-            </androidx.cardview.widget.CardView>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="4dp"/>
-
-            <TextView
-                android:layout_marginBottom="4dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="Upload Foto"/>
 
             <RelativeLayout

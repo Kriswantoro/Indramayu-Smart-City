@@ -4,9 +4,11 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.kriswantoro.indramayu.R
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_list_pengaduan.view.*
 
 class PengaduanAdapter(val list: ArrayList<PengaduanModel>) :
@@ -26,10 +28,14 @@ class PengaduanAdapter(val list: ArrayList<PengaduanModel>) :
 
         holder.bindItem(list[position])
 
-        if (holder.itemView.id_diproses.text == "Sedang Diproses") {
-            holder.itemView.id_diproses.setTextColor(Color.RED)
-        } else {
-            holder.itemView.id_diproses.setTextColor(Color.GREEN)
+        when (holder.itemView.id_diproses.text) {
+            "belum diproses" -> {
+                holder.itemView.id_diproses.setTextColor(Color.GRAY)
+            }
+            "sedang diproses" -> {
+                holder.itemView.id_diproses.setTextColor(Color.GREEN)
+            }
+            else -> holder.itemView.id_diproses.setTextColor(Color.RED)
         }
     }
 
@@ -41,13 +47,19 @@ class PengaduanAdapter(val list: ArrayList<PengaduanModel>) :
         private val idDeskripsi: TextView = itemView.id_deskripsi
         private val idKategori: TextView = itemView.id_kategori
         private val idProses: TextView = itemView.id_diproses
+        private val photoProfil: ImageView = itemView.foto_profil
+        private val photoPengaduan: ImageView = itemView.foto_pengaduan
 
         fun bindItem(pengaduan: PengaduanModel) {
             listPengaduan.text = pengaduan.judulPengaduan
             idKategori.text = pengaduan.kategori
-            lokasiTempat.text = pengaduan.lokasi_pengaduan
+            lokasiTempat.text = pengaduan.lokasi
             idDeskripsi.text = pengaduan.pesan
             idProses.text = pengaduan.status
+            Picasso.get().load(pengaduan.fotoPengguna).into(photoProfil)
+            if (pengaduan.fotoPengaduan == "") {
+                Picasso.get().load(R.drawable.gambar).into(photoPengaduan)
+            } else Picasso.get().load(pengaduan.fotoPengaduan).into(photoPengaduan)
         }
 
     }

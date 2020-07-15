@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -11,32 +10,28 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp">
-        
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
 
             <com.mikhaellopez.circularimageview.CircularImageView
-                android:id="@+id/foto_profil"
                 android:layout_width="50dp"
+                android:id="@+id/foto_profil"
                 android:layout_height="50dp"
-                android:layout_marginLeft="10dp"
-                android:src="@drawable/ic_bg_home3"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/foto_profile"
                 app:civ_border_color="@color/blue"
                 app:civ_border_width="1dp" />
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="47dp"
-                android:src="@drawable/foto_profile"
-                android:layout_marginLeft="10dp"/>
+
 
             <LinearLayout
                 android:id="@+id/ll_atas"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@id/foto_profil"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@id/foto_profil"
                 android:orientation="vertical">
 
                 <TextView
@@ -52,59 +47,59 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/lokasi_tempat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_location_kecil"
                     android:text="Lokasi"
-                    android:textStyle="italic"
                     android:textColor="#000"
-                    android:textSize="8dp"
-                    android:drawableLeft="@drawable/ic_location_kecil"
-                    android:id="@+id/lokasi_tempat"/>
+                    android:textSize="8sp"
+                    android:textStyle="italic" />
             </LinearLayout>
 
-                <TextView
-                    android:id="@+id/btn_edit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="10dp"
-                    android:drawableRight="@drawable/ic_more_vert_black_24dp"/>
+            <TextView
+                android:id="@+id/btn_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="10dp"
+                android:drawableEnd="@drawable/ic_more_vert_black_24dp" />
 
 
-                <TextView
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="35dp"
-                    android:layout_toStartOf="@+id/btn_edit"
-                    android:id="@+id/id_diproses"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="13dp"
-                    android:text="Sedang Diproses"
-                    android:textAllCaps="false"
-                    android:textColor="@color/black"
-                    android:textSize="10sp"
-                    android:textStyle="normal" />
+            <TextView
+                android:id="@+id/id_diproses"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="13dp"
+                android:layout_marginEnd="35dp"
+                android:layout_toStartOf="@+id/btn_edit"
+                android:text="Sedang Diproses"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:textStyle="normal" />
 
             <ImageView
-                android:layout_marginTop="65dp"
+                android:id="@+id/foto_pengaduan"
                 android:layout_width="3500dp"
                 android:layout_height="200dp"
-                android:src="@drawable/gambar"
-                android:id="@+id/foto_pengaduan"/>
+                android:layout_marginTop="65dp"
+                android:src="@drawable/gambar" />
 
             <TextView
                 android:id="@+id/id_kategori"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/foto_pengaduan"
-                android:layout_marginTop="16dp"
                 android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginBottom="16dp"
                 android:text="contoh"
                 android:textColor="@color/black"
-                android:textSize="10sp"
-                android:textStyle="normal" />
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/id_deskripsi"
@@ -116,7 +111,7 @@
                 android:layout_marginBottom="16dp"
                 android:text="contoh"
                 android:textColor="@color/black"
-                android:textSize="10sp"
+                android:textSize="12sp"
                 android:textStyle="normal" />
 
         </RelativeLayout>

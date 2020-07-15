@@ -15,8 +15,11 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.kriswantoro.indramayu.R
+import com.kriswantoro.indramayu.intro.SharedPref
+import com.kriswantoro.indramayu.ui.beranda.buat_pengaduan.PengaduanActivity
 import com.kriswantoro.indramayu.ui.saran.buat_saran.TambahSaranActivity
 import com.kriswantoro.indramayu.util.EndPoint
+import com.kriswantoro.indramayu.verifikasi.LoginActivity
 import kotlinx.android.synthetic.main.fragment_saran.*
 import kotlinx.android.synthetic.main.fragment_saran.view.*
 import org.json.JSONException
@@ -39,8 +42,12 @@ class SaranFragment : Fragment() {
             startActivity(Intent(context,
                 TambahSaranActivity::class.java))
         }
-
-        listSaran()
+        if (SharedPref.getInstance(requireContext()).isLoggedIn) {
+            listSaran()
+        } else {
+            Toast.makeText(requireContext(), "You're not Loggedin", Toast.LENGTH_LONG).show()
+            startActivity(Intent(context, LoginActivity::class.java))
+        }
         listSaran = root.findViewById(R.id.list_saran)
         listSaran.layoutManager = LinearLayoutManager(context)
 

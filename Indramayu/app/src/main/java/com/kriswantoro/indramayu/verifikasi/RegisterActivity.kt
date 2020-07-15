@@ -3,6 +3,7 @@ package com.kriswantoro.indramayu.verifikasi
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.widget.*
@@ -15,6 +16,7 @@ import com.kriswantoro.indramayu.MainActivity
 import com.kriswantoro.indramayu.R
 import com.kriswantoro.indramayu.util.EndPoint
 import com.kriswantoro.indramayu.util.VolleySingleton
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_register.*
 import org.json.JSONException
 import org.json.JSONObject
@@ -50,22 +52,26 @@ class RegisterActivity : AppCompatActivity() {
         edtNoTlpn = findViewById(R.id.no_telpon)
 
         btn_daftar.setOnClickListener {
-            registerUser()
+            if (edtNoTlpn.text.isEmpty()) {
+                edtNoTlpn.error = "No Telpon tidak boleh kosong"
+                edtNoTlpn.requestFocus()
+            } else registerUser()
         }
         buttonMasuk.setOnClickListener {
             startActivity(Intent(this, LoginActivity::class.java))
         }
     }
 
-    fun pickProfileImage(view: View) {ImagePicker.with(this)
-        // Crop Square image
-        .cropSquare()
-        .setImageProviderInterceptor { imageProvider -> // Intercept ImageProvider
-            Log.d("ImagePicker", "Selected ImageProvider: "+imageProvider.name)
-        }
-        // Image resolution will be less than 512 x 512
-        .maxResultSize(512, 512)
-        .start(PROFILE_IMAGE_REQ_CODE)
+    fun pickProfileImage(view: View) {
+        ImagePicker.with(this)
+            // Crop Square image
+            .cropSquare()
+            .setImageProviderInterceptor { imageProvider -> // Intercept ImageProvider
+                Log.d("ImagePicker", "Selected ImageProvider: " + imageProvider.name)
+            }
+            // Image resolution will be less than 512 x 512
+            .maxResultSize(512, 512)
+            .start(PROFILE_IMAGE_REQ_CODE)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -93,20 +99,45 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    private fun registerUser(){
+    private fun registerUser() {
         val namaPengguna = edtNamaPengguna.text.toString()
         val email = edtEmail.text.toString()
         val noTelp = edtNoTlpn.text.toString()
-        var fotoProfil = "https://png.pngtree.com/element_our/png/20181206/users-vector-icon-png_260862.jpg"
+
+        val fotoProfil =
+            "https://png.pngtree.com/element_our/png/20181206/users-vector-icon-png_260862.jpg"
 
         val stringRequest = object : StringRequest(
             Method.POST, EndPoint.URL_REGISTER,
             com.android.volley.Response.Listener<String> { response ->
                 try {
                     val obj = JSONObject(response)
-                    Toast.makeText(applicationContext, obj.getString("message"), Toast.LENGTH_LONG)
-                        .show()
-                    startActivity(Intent(this, LoginActivity::class.java))
+                    when {
+                        obj.getInt("error") == 200 -> {
+                            Toast.makeText(
+                                applicationContext,
+                                "Register Berhasil",
+                                Toast.LENGTH_LONG
+                            )
+                                .show()
+                            startActivity(Intent(this, LoginActivity::class.java))
+                        }
+                        obj.getInt("error") == 400 -> {
+                            Toast.makeText(
+                                applicationContext,
+                                "No Telfon sudah terdaftar",
+                                Toast.LENGTH_LONG
+                            )
+                                .show()
+                        }
+                        else -> Toast.makeText(
+                            applicationContext,
+                            obj.getString("message"),
+                            Toast.LENGTH_LONG
+                        )
+                            .show()
+                    }
+
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
@@ -125,6 +156,7 @@ class RegisterActivity : AppCompatActivity() {
                 params["nama_pengguna"] = namaPengguna
                 params["email"] = email
                 params["no_tlpn"] = noTelp
+                params["status_pengguna"] = ""
                 return params
             }
         }

@@ -43,6 +43,11 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
+    }
+
     fun login() {
         val noTelp = edtNoTelp.text.toString()
 
@@ -62,7 +67,7 @@ class LoginActivity : AppCompatActivity() {
                     if (!obj.getBoolean("error")) {
                         Toast.makeText(
                             applicationContext,
-                            obj.getString("message"),
+                            "Welcome to ISC",
                             Toast.LENGTH_SHORT
                         ).show()
 
@@ -81,6 +86,7 @@ class LoginActivity : AppCompatActivity() {
                             SharedPref.getInstance(applicationContext).userLogin(user)
                             finish()
                             startActivity(Intent(applicationContext, MainActivity::class.java))
+//                            Toast.makeText(this, "Welcome to ISC", Toast.LENGTH_LONG).show()
                         }
                     } else {
 

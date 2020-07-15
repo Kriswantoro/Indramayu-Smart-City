@@ -13,10 +13,12 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.kriswantoro.indramayu.MainActivity
 import com.kriswantoro.indramayu.R
+import com.kriswantoro.indramayu.verifikasi.LoginActivity
 import kotlinx.android.synthetic.main.activity_intro.*
 
 class IntroActivity : AppCompatActivity() {
@@ -35,7 +37,8 @@ class IntroActivity : AppCompatActivity() {
         }
         // Making notification bar transparent
         if (Build.VERSION.SDK_INT >= 21) {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            window.decorView.systemUiVisibility =
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
         }
         //Set the layout
         setContentView(R.layout.activity_intro)
@@ -63,7 +66,11 @@ class IntroActivity : AppCompatActivity() {
                 // move to next screen
                 view_pager!!.currentItem = current
             } else {
-                launchHomeScreen()
+                prefManager!!.setLaunched(true)
+                Toast.makeText(this, "Please Login", Toast.LENGTH_LONG).show()
+                startActivity(Intent(this, LoginActivity::class.java))
+                prefManager!!.setLaunched(false)
+                finish()
             }
         })
     }
@@ -86,35 +93,43 @@ class IntroActivity : AppCompatActivity() {
 
     private fun launchHomeScreen() {
         prefManager!!.setLaunched(false)
-        startActivity(Intent(this, MainActivity::class.java))
-        finish()
+        if (!SharedPref.getInstance(this).isLoggedIn) {
+            Toast.makeText(this, "You're not Login", Toast.LENGTH_LONG).show()
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+        } else {
+            Toast.makeText(this, "Welcome to ISC", Toast.LENGTH_LONG).show()
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+        }
     }
 
     //	viewpager change listener
-    private var viewPagerPageChangeListener: ViewPager.OnPageChangeListener = object : ViewPager.OnPageChangeListener {
+    private var viewPagerPageChangeListener: ViewPager.OnPageChangeListener =
+        object : ViewPager.OnPageChangeListener {
 
-        override fun onPageSelected(position: Int) {
-            addBottomDots(position)
-            // changing the next button text 'NEXT' / 'GOT IT'
-            if (position == layouts!!.size - 1) {
-                // last page. make button text to GOT IT
-                btn_next!!.text = getString(R.string.start)
-                btn_next!!.setBackgroundResource(R.color.blue)
-                btn_next!!.setTextColor(Color.WHITE)
-                btn_skip!!.visibility = View.GONE
-            } else {
-                // still pages are left
-                btn_next!!.text = getString(R.string.next)
-                btn_skip!!.visibility = View.VISIBLE
+            override fun onPageSelected(position: Int) {
+                addBottomDots(position)
+                // changing the next button text 'NEXT' / 'GOT IT'
+                if (position == layouts!!.size - 1) {
+                    // last page. make button text to GOT IT
+                    btn_next!!.text = getString(R.string.start)
+                    btn_next!!.setBackgroundResource(R.color.blue)
+                    btn_next!!.setTextColor(Color.WHITE)
+                    btn_skip!!.visibility = View.GONE
+                } else {
+                    // still pages are left
+                    btn_next!!.text = getString(R.string.next)
+                    btn_skip!!.visibility = View.VISIBLE
+                }
+            }
+
+            override fun onPageScrolled(arg0: Int, arg1: Float, arg2: Int) {
+            }
+
+            override fun onPageScrollStateChanged(arg0: Int) {
             }
         }
-
-        override fun onPageScrolled(arg0: Int, arg1: Float, arg2: Int) {
-        }
-
-        override fun onPageScrollStateChanged(arg0: Int) {
-        }
-    }
 
     /**
      * Making notification bar transparent

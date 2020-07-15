@@ -16,13 +16,18 @@ import androidx.core.content.ContextCompat
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
+import com.github.dhaval2404.imagepicker.sample.setDrawableImage
 import com.kriswantoro.indramayu.MainActivity
 import com.kriswantoro.indramayu.R
+import com.kriswantoro.indramayu.intro.SharedPref
 import com.kriswantoro.indramayu.util.EndPoint
 import com.kriswantoro.indramayu.util.FileUtil
 import com.kriswantoro.indramayu.util.VolleySingleton
+import com.kriswantoro.indramayu.verifikasi.LoginActivity
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_pengaduan.*
 import kotlinx.android.synthetic.main.activity_pengaduan.btn_ganti_foto
+import kotlinx.android.synthetic.main.fragment_beranda.view.*
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.File
@@ -38,7 +43,7 @@ class PengaduanActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
     var statusPengaduan: String = "1"
     private var pathImage: String? = ""
     private var editPhoto: String = ""
-    private var fotoPengaduan: String = ""
+    var idPengguna: String = ""
 
 
     private val GALLERY = 1
@@ -93,9 +98,20 @@ class PengaduanActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
 //        FileUtil.viewImage(this, foto_pengaduan, noTelp)
 
         btn_buat_pengaduan.setOnClickListener {
-            postPengaduan()
-            Toast.makeText(this, "Sukses!", Toast.LENGTH_LONG).show()
-            startActivity(Intent(this, MainActivity::class.java))
+
+            if (SharedPref.getInstance(this).isLoggedIn) {
+
+                val user = SharedPref.getInstance(this).user
+
+                idPengguna = user.idPengguna.toString()
+                postPengaduan()
+                Toast.makeText(this, "Sukses!", Toast.LENGTH_LONG).show()
+                startActivity(Intent(this, MainActivity::class.java))
+            } else {
+                Toast.makeText(this, "You're not Login", Toast.LENGTH_LONG).show()
+                startActivity(Intent(this, LoginActivity::class.java))
+                finish()
+            }
         }
 
         btn_ganti_foto.setOnClickListener { showPicture() }
@@ -146,10 +162,8 @@ class PengaduanActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
         pesanPengaduan = pesan.text.toString()
         lokasiPengaduan = ed_lokasi_tempat.text.toString()
 
-        if (pathImage != "" && pathImage != null) {
-            editPhoto = pathImage.toString().trim()
-            fotoPengaduan = ("data:image/jpg;base64,$pathImage").trim()
-        }
+        val fotoPengaduan = "https://png.pngtree.com/element_our/png/20181206/users-vector-icon-png_260862.jpg"
+
 
         val stringRequest = object : StringRequest(
             Method.POST, EndPoint.URL_POST_PENGADUAN,
@@ -172,11 +186,12 @@ class PengaduanActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
             @Throws(AuthFailureError::class)
             override fun getParams(): MutableMap<String, String> {
                 val params = HashMap<String, String>()
+                params["id_pengguna"] = idPengguna
                 params["judul_pengaduan"] = judulPengaduan
                 params["kategori"] = kategoriPengaduan
                 params["pesan"] = pesanPengaduan
-                params["foto_pengaduan"] = noTelp
-                params["lokasi_pengaduan"] = lokasiPengaduan
+                params["foto_pengaduan"] = fotoPengaduan
+                params["lokasi"] = lokasiPengaduan
                 params["id_status_pengaduan"] = statusPengaduan
                 return params
             }
