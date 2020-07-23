@@ -78,9 +78,34 @@
 
             </androidx.cardview.widget.CardView>
 
-            <View
+            <TextView
+                android:layout_marginBottom="4dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nama Dinas"
+                android:id="@+id/txt_dinas"/>
+
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="4dp"/>
+                android:layout_height="52dp"
+                app:cardCornerRadius="5dp"
+                android:elevation="8dp"
+                app:cardUseCompatPadding="true"
+                android:id="@+id/cv_dinas">
+
+                <TextView
+                    android:id="@+id/nama_instansi"
+                    android:background="@android:color/transparent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:inputType="text"
+                    android:textColor="#000"
+                    android:paddingStart="16dp"/>
+
+            </androidx.cardview.widget.CardView>
 
             <TextView
                 android:layout_marginBottom="4dp"
@@ -92,59 +117,23 @@
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                app:cardCornerRadius="5dp"
+                android:layout_height="90dp"
                 android:elevation="8dp"
                 app:cardUseCompatPadding="true"
                 android:id="@+id/cv_pesan">
 
                 <EditText
-                    android:layout_below="@+id/id_pesan"
+                    android:id="@+id/pesan"
+                    android:layout_below="@+id/cv_pesan"
                     android:inputType="textMultiLine"
                     android:textColor="#000"
-                    android:minLines="6"
+                    android:minLines="3"
                     android:gravity="top|left"
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
                     />
 
             </androidx.cardview.widget.CardView>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="4dp"/>
-
-            <TextView
-                android:layout_marginBottom="4dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Nomor Telepon"/>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                app:cardCornerRadius="5dp"
-                android:elevation="8dp"
-                app:cardUseCompatPadding="true">
-
-                <EditText
-                    android:id="@+id/no_tlpn"
-                    android:background="@android:color/transparent"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:inputType="phone"
-                    android:textColor="#000"
-                    android:hint=""
-                    android:paddingStart="16dp"/>
-
-            </androidx.cardview.widget.CardView>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="4dp"/>
 
             <TextView
                 android:layout_marginBottom="4dp"
@@ -243,8 +232,9 @@
                 android:textColor="#ffffff"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
+                android:layout_marginTop="10dp"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="20dp" />
 
 
         </LinearLayout>

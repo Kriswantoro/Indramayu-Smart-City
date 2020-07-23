@@ -53,28 +53,32 @@
                 android:layout_below="@id/nama_pengguna"
                 android:text="+628" />
 
-        <TextView
-            android:id="@+id/riwayat_pengaduan"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/nomor_pengguna"
-            android:layout_margin="8dp"
-            android:drawableStart="@drawable/ic_restore_black_24dp"
-            android:drawablePadding="8dp"
-            android:text="Riwayat Pengaduan"
-            android:textColor="#000"
-            android:textStyle="bold" />
+<!--        <TextView-->
+<!--            android:id="@+id/riwayat_pengaduan"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/nomor_pengguna"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_marginTop="6dp"-->
+<!--            android:layout_marginEnd="4dp"-->
+<!--            android:layout_marginBottom="8dp"-->
+<!--            android:drawableStart="@drawable/ic_restore_black_24dp"-->
+<!--            android:drawablePadding="8dp"-->
+<!--            android:text="Riwayat Pengaduan"-->
+<!--            android:textColor="#000"-->
+<!--            android:textStyle="bold" />-->
 
-        <View
-            android:id="@+id/line1"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_below="@id/riwayat_pengaduan"
-            android:layout_marginBottom="4dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:background="#DDDDDD" />
+<!--        <View-->
+<!--            android:id="@+id/line1"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="2dp"-->
+<!--            android:layout_below="@id/riwayat_pengaduan"-->
+<!--            android:layout_marginBottom="4dp"-->
+<!--            android:layout_marginTop="4dp"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            android:layout_marginEnd="8dp"-->
+<!--            android:background="#DDDDDD" />-->
+
 
 <!--        <TextView-->
 <!--            android:layout_below="@id/line1"-->
@@ -87,50 +91,115 @@
 <!--            android:text="Syarat dan Ketentuan"-->
 <!--            android:textColor="#000"-->
 <!--            android:textStyle="bold" />-->
-<!--        <View-->
-<!--            android:id="@+id/line2"-->
+
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_b_diproses"
+            android:layout_width="125dp"
+            android:layout_height="82dp"
+            android:background="@color/blue"
+            android:layout_marginTop="160dp"
+            android:elevation="8dp"
+            app:cardCornerRadius="5dp"
+            app:cardUseCompatPadding="true">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:layout_gravity="top"
+                android:text="Belum Diproses" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="60"
+                android:textColor="@color/colorPrimaryDark" />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_s_diproses"
+            android:layout_width="130dp"
+            android:layout_height="82dp"
+            android:layout_toRightOf="@+id/cv_b_diproses"
+            android:layout_marginTop="160dp"
+            android:elevation="8dp"
+            app:cardCornerRadius="5dp"
+            app:cardUseCompatPadding="true">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="Sedang Diproses" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:padding="8dp"
+                android:text="12"
+                android:textColor="@color/colorPrimaryDark" />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_selesai"
+            android:layout_width="130dp"
+            android:layout_height="82dp"
+            android:layout_toRightOf="@+id/cv_s_diproses"
+            android:layout_marginTop="160dp"
+            android:elevation="8dp"
+            app:cardCornerRadius="5dp"
+            app:cardUseCompatPadding="true">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:layout_marginLeft="30dp"
+                android:text="Selesai" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:padding="8dp"
+                android:text="12"
+                android:textColor="@color/colorPrimaryDark" />
+
+        </androidx.cardview.widget.CardView>
+
+<!--        <TextView-->
+<!--            android:id="@+id/tentang_apk"-->
 <!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="2dp"-->
-<!--            android:layout_below="@+id/SdK"-->
-<!--            android:layout_marginBottom="4dp"-->
-<!--            android:layout_marginTop="4dp"-->
-<!--            android:layout_marginStart="8dp"-->
-<!--            android:layout_marginEnd="8dp"-->
-<!--            android:background="#DDDDDD" />-->
-
-        <TextView
-            android:layout_below="@id/line1"
-            android:id="@+id/tentang_apk"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:drawableLeft="@drawable/ic_phone_iphone_black_24dp"
-            android:drawablePadding="8dp"
-            android:text="Tentang Aplikasi"
-            android:textColor="#000"
-            android:textStyle="bold" />
-
-        <View
-            android:id="@+id/line3"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_below="@id/tentang_apk"
-            android:layout_marginBottom="4dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:background="#DDDDDD" />
-
-        <Button
-            android:id="@+id/btn_keluar"
-            android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            android:text="Keluar"
-            android:layout_below="@id/line3"
-            android:layout_marginTop="24dp"
-            android:background="@drawable/bgbutton"
-            android:textColor="@color/white"/>
-
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@+id/nomor_pengguna"-->
+<!--            android:layout_margin="30dp"-->
+<!--            android:drawableLeft="@drawable/ic_phone_iphone_black_24dp"-->
+<!--            android:drawablePadding="8dp"-->
+<!--            android:text="Tentang Aplikasi"-->
+<!--            android:textColor="#000"-->
+<!--            android:textStyle="bold" />-->
     </RelativeLayout>
+
+
+    <Button
+        android:id="@+id/btn_keluar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:text="Keluar"
+        android:layout_marginBottom="80dp"
+        android:layout_margin="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/bgbutton"
+        android:textColor="@color/white"/>
 
 </RelativeLayout>

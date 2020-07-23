@@ -6,25 +6,30 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.androidnetworking.AndroidNetworking
-import com.androidnetworking.common.Priority
-import com.androidnetworking.error.ANError
-import com.androidnetworking.interfaces.JSONObjectRequestListener
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.kriswantoro.indramayu.R
+import com.kriswantoro.indramayu.intro.SharedPref
+import com.kriswantoro.indramayu.ui.beranda.buat_pengaduan.PengaduanActivity
 import com.kriswantoro.indramayu.ui.saran.buat_saran.TambahSaranActivity
+import com.kriswantoro.indramayu.util.EndPoint
+import com.kriswantoro.indramayu.verifikasi.LoginActivity
+import kotlinx.android.synthetic.main.fragment_saran.*
 import kotlinx.android.synthetic.main.fragment_saran.view.*
+import org.json.JSONException
 import org.json.JSONObject
-import java.lang.Exception
 
 class SaranFragment : Fragment() {
 
-//    private val mDataList = ArrayList<SaranModel>()
-//    private lateinit var adapter: SaranAdapter
+    private val mDataList = ArrayList<SaranModel>()
+    private lateinit var adapter: SaranAdapter
+    lateinit var listSaran: RecyclerView
 
     @SuppressLint("WrongConstant")
     override fun onCreateView(
@@ -37,41 +42,55 @@ class SaranFragment : Fragment() {
             startActivity(Intent(context,
                 TambahSaranActivity::class.java))
         }
-        val list_saran = root.findViewById(R.id.list_saran) as RecyclerView
+        if (SharedPref.getInstance(requireContext()).isLoggedIn) {
+            listSaran()
+        } else {
+            Toast.makeText(requireContext(), "You're not Loggedin", Toast.LENGTH_LONG).show()
+            startActivity(Intent(context, LoginActivity::class.java))
+        }
+        listSaran = root.findViewById(R.id.list_saran)
+        listSaran.layoutManager = LinearLayoutManager(context)
 
-        list_saran.layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL,  false)
-
-
-//        AndroidNetworking.get("http://192.168.100.5:8000/")
-//            .setPriority(Priority.MEDIUM)
-//            .build()
-//            .getAsJSONObject(object : JSONObjectRequestListener {
-//                override fun onResponse(response: JSONObject?) {
-//                    val jsonArray = response!!.optJSONArray("data")
-//
-//                    try {
-//                        for (i in 0 until jsonArray?.length()!!){
-//                            val jsonObject = jsonArray?.optJSONObject(i)
-//                            mDataList.add(
-//                                SaranModel(
-//                                    jsonObject.getString("judul_saran"),
-//                                    jsonObject.getString("deskripsi")
-//                                )
-//                            )
-//                        }
-//                    } catch (e: Exception){
-//
-//                    }
-//
-//                    list_saran.adapter = adapter
-//                }
-//
-//                override fun onError(anError: ANError?) {
-//                    Toast.makeText(context, "Kesalahan Jaringan", Toast.LENGTH_LONG).show()
-//                }
-//            })
-//
         return root
+    }
 
+    private fun listSaran(){
+            val stringRequest = StringRequest(
+                Request.Method.GET,
+                EndPoint.URL_GET_SARAN,
+                Response.Listener<String> { s ->
+                    try {
+                        val obj = JSONObject(s)
+                        if (!obj.getBoolean("error")) {
+                            val array = obj.getJSONArray("data")
+
+                            for (i in 0 until array.length()) {
+                                val objectSaran = array.getJSONObject(i)
+                                val saran = SaranModel(
+                                    objectSaran.getString("id_saran"),
+                                    objectSaran.getString("judul_saran"),
+                                    objectSaran.getString("deskripsi"),
+                                    objectSaran.getString("tgl_saran")
+                                )
+                                mDataList.add(saran)
+                                adapter = SaranAdapter(mDataList)
+                                list_saran.adapter = adapter
+                            }
+                        } else{
+                            Toast.makeText(requireContext(), obj.getString("message"), Toast.LENGTH_LONG).show()
+                        }
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                    }
+                },
+                Response.ErrorListener {
+                    Toast.makeText(
+                        requireContext(),
+                        it.message,
+                        Toast.LENGTH_LONG
+                    ).show()
+                })
+            val requestQueue = Volley.newRequestQueue(requireContext())
+            requestQueue.add<String>(stringRequest)
     }
 }

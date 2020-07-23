@@ -51,9 +51,52 @@
 
         </RelativeLayout>
 
-
         <TextView
             android:layout_below="@+id/pembatas3"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No NIK"
+            android:id="@+id/txt_nik"/>
+
+        <androidx.cardview.widget.CardView
+            android:layout_below="@id/txt_nik"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginRight="80dp"
+            app:cardCornerRadius="5dp"
+            android:elevation="8dp"
+            app:cardUseCompatPadding="true"
+            android:id="@+id/cv_nik">
+
+            <EditText
+                android:id="@+id/nik"
+                android:background="@android:color/transparent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:inputType="textPersonName"
+                android:textColor="#000"
+                android:hint="Masukan NIK"
+                android:paddingLeft="16dp"/>
+
+        </androidx.cardview.widget.CardView>
+
+        <Button
+            android:layout_width="70dp"
+            android:layout_height="52dp"
+            android:background="@drawable/bgbutton2"
+            android:text="CEK"
+            android:textColor="@color/white"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="243dp"/>
+
+
+        <TextView
+            android:layout_below="@+id/cv_nik"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="4dp"
             android:layout_width="wrap_content"
@@ -70,7 +113,7 @@
             app:cardUseCompatPadding="true"
             android:id="@+id/cv_nama">
 
-            <EditText
+            <TextView
                 android:id="@+id/nama_lengkap"
                 android:background="@android:color/transparent"
                 android:layout_width="match_parent"
@@ -80,7 +123,6 @@
                 android:textStyle="bold"
                 android:inputType="textPersonName"
                 android:textColor="#000"
-                android:hint="Nama Lengkap Kamu"
                 android:paddingLeft="16dp"/>
 
         </androidx.cardview.widget.CardView>

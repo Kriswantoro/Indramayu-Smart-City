@@ -7,10 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.kriswantoro.indramayu.R
-import com.kriswantoro.indramayu.ui.tempat.list_tempat.IbadahActivity
-import com.kriswantoro.indramayu.ui.tempat.list_tempat.KantorPolisiActivity
-import com.kriswantoro.indramayu.ui.tempat.list_tempat.RumahSakitActivity
-import com.kriswantoro.indramayu.ui.tempat.list_tempat.WisataActivity
+import com.kriswantoro.indramayu.ui.tempat.list_tempat.ibadah.IbadahActivity
+import com.kriswantoro.indramayu.ui.tempat.list_tempat.kantor_polisi.KantorPolisiActivity
+import com.kriswantoro.indramayu.ui.tempat.list_tempat.rumah_sakit.RumahSakitActivity
+import com.kriswantoro.indramayu.ui.tempat.list_tempat.wisata.WisataActivity
 import kotlinx.android.synthetic.main.fragment_tempat.view.*
 
 class TempatFragment : Fragment() {
@@ -22,16 +22,24 @@ class TempatFragment : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_tempat, container, false)
         root.ibadah.setOnClickListener {
-            startActivity(Intent(context, IbadahActivity::class.java))
+            val intent = Intent(context, IbadahActivity::class.java)
+            intent.putExtra("id_kategori", 1)
+            startActivity(intent)
         }
         root.rumah_sakit.setOnClickListener {
-            startActivity(Intent(context, RumahSakitActivity::class.java))
+            val intent = Intent(context, RumahSakitActivity::class.java)
+            intent.putExtra("id_kategori", 4)
+            startActivity(intent)
         }
         root.ktr_polisi.setOnClickListener {
-            startActivity(Intent(context, KantorPolisiActivity::class.java))
+            val intent = Intent(context, KantorPolisiActivity::class.java)
+            intent.putExtra("id_kategori", 3)
+            startActivity(intent)
         }
         root.wisata.setOnClickListener {
-            startActivity(Intent(context, WisataActivity::class.java))
+            val intent = Intent(context, WisataActivity::class.java)
+            intent.putExtra("id_kategori", 2)
+            startActivity(intent)
         }
         return root
     }
