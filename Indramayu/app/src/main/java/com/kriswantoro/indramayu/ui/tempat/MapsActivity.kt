@@ -50,5 +50,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val lokasi = LatLng(lat, lng)
         mMap.addMarker(MarkerOptions().position(lokasi).title(nama_tempat))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(lokasi))
+        mMap.setMinZoomPreference(16.0f)
+        mMap.setMaxZoomPreference(30.0f)
     }
 }
