@@ -68,9 +68,9 @@ class AkunFragment : Fragment() {
         root.edit_profil.setOnClickListener {
             startActivity(Intent(context, EditAkunAktivity::class.java))
         }
-        root.tentang_apk.setOnClickListener {
-            startActivity(Intent(context, TentangISCActivity::class.java))
-        }
+//        root.tentang_apk.setOnClickListener {
+//            startActivity(Intent(context, TentangISCActivity::class.java))
+//        }
 
 //        root.foto_profil.setDrawableImage(R.drawable.foto_profile, true)
 

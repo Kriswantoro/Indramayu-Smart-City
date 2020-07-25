@@ -45,6 +45,11 @@ class SharedPref private constructor(mCtx: Context) {
     fun userLogout() {
         val sharedPreferences = ctx?.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)
         val editor = sharedPreferences?.edit()
+        editor?.remove(KEY_ID)
+        editor?.remove(KEY_FOTO)
+        editor?.remove(KEY_NAMA)
+        editor?.remove(KEY_EMAIL)
+        editor?.remove(KEY_NO_TELP)
         editor?.clear()
         editor?.apply()
         ctx?.startActivity(Intent(ctx, MainActivity::class.java))

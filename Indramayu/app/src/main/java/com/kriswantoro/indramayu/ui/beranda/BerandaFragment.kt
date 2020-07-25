@@ -103,6 +103,7 @@ class BerandaFragment : Fragment() {
                             val menu = PengaduanModel(
                                 objectMenu.getString("id_pengaduan"),
                                 objectMenu.getString("id_pengguna"),
+                                objectMenu.getString("id_dinas"),
                                 objectMenu.getString("judul_pengaduan"),
                                 objectMenu.getString("kategori"),
                                 objectMenu.getString("pesan"),

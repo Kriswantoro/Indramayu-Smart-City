@@ -16,34 +16,39 @@ import androidx.core.content.ContextCompat
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
-import com.github.dhaval2404.imagepicker.sample.setDrawableImage
+import com.google.gson.Gson
 import com.kriswantoro.indramayu.MainActivity
 import com.kriswantoro.indramayu.R
 import com.kriswantoro.indramayu.intro.SharedPref
 import com.kriswantoro.indramayu.util.EndPoint
 import com.kriswantoro.indramayu.util.FileUtil
 import com.kriswantoro.indramayu.util.VolleySingleton
+import com.kriswantoro.indramayu.util.retrofit.network.BaseService
+import com.kriswantoro.indramayu.util.retrofit.network.response.BaseResponse
 import com.kriswantoro.indramayu.verifikasi.LoginActivity
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_pengaduan.*
 import kotlinx.android.synthetic.main.activity_pengaduan.btn_ganti_foto
-import kotlinx.android.synthetic.main.fragment_beranda.view.*
 import org.json.JSONException
 import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
 import java.io.File
 import java.io.IOException
 
-class PengaduanActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
+class PengaduanActivity : AppCompatActivity(){
 
     var judulPengaduan: String = ""
-    lateinit var kategoriPengaduan: String
     var pesanPengaduan: String = ""
     var noTelp: String = ""
     var lokasiPengaduan: String = ""
-    var statusPengaduan: String = "1"
+    var statusPengaduan: String = "Belum Proses"
     private var pathImage: String? = ""
     private var editPhoto: String = ""
     var idPengguna: String = ""
+    val mListKategori = ArrayList<KategoriPengaduanModel>()
+
+    var listSpinnerIdDinas = ""
+    var listDataSpinner = ""
 
 
     private val GALLERY = 1
@@ -90,12 +95,11 @@ class PengaduanActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pengaduan)
         spinner = findViewById(R.id.spin_kategori_pengaduan)
-        arrayAdapter =
-            ArrayAdapter(applicationContext, android.R.layout.simple_list_item_1, itemList)
-        spinner.adapter = arrayAdapter
-        spinner.onItemSelectedListener = this
+
 
 //        FileUtil.viewImage(this, foto_pengaduan, noTelp)
+
+        getKategoriPengaduan()
 
         btn_buat_pengaduan.setOnClickListener {
 
@@ -149,20 +153,13 @@ class PengaduanActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
         }
     }
 
-    override fun onNothingSelected(parent: AdapterView<*>?) {}
-
-    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        kategoriPengaduan = spinner.selectedItem.toString()
-        Log.e("kategori", kategoriPengaduan)
-//        Toast.makeText(this, kategoriPengaduan, Toast.LENGTH_LONG).show()
-    }
-
     private fun postPengaduan() {
         judulPengaduan = judul_pengaduan.text.toString()
         pesanPengaduan = pesan.text.toString()
         lokasiPengaduan = ed_lokasi_tempat.text.toString()
 
-        val fotoPengaduan = "https://png.pngtree.com/element_our/png/20181206/users-vector-icon-png_260862.jpg"
+        val fotoPengaduan =
+            "https://png.pngtree.com/element_our/png/20181206/users-vector-icon-png_260862.jpg"
 
 
         val stringRequest = object : StringRequest(
@@ -187,12 +184,14 @@ class PengaduanActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
             override fun getParams(): MutableMap<String, String> {
                 val params = HashMap<String, String>()
                 params["id_pengguna"] = idPengguna
+                params["id_dinas"] = listSpinnerIdDinas
                 params["judul_pengaduan"] = judulPengaduan
-                params["kategori"] = kategoriPengaduan
+                params["kategori"] = listDataSpinner
                 params["pesan"] = pesanPengaduan
                 params["foto_pengaduan"] = fotoPengaduan
                 params["lokasi"] = lokasiPengaduan
-                params["id_status_pengaduan"] = statusPengaduan
+                params["status"] = statusPengaduan
+                params["status_kirim"] = ""
                 return params
             }
         }
@@ -238,5 +237,79 @@ class PengaduanActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
                 startActivityForResult(cameraIntent, CAMERA)
             }
         }
+    }
+
+    fun getKategoriPengaduan() {
+        BaseService.getKategoriPengaduanService().getKategoriPengaduan("getkategoripengaduan")
+            .enqueue(object : Callback<BaseResponse<KategoriPengaduanModel>> {
+                override fun onFailure(
+                    call: Call<BaseResponse<KategoriPengaduanModel>>,
+                    t: Throwable
+                ) {
+                    Toast.makeText(this@PengaduanActivity, t.message, Toast.LENGTH_LONG).show()
+                }
+
+                override fun onResponse(
+                    call: Call<BaseResponse<KategoriPengaduanModel>>,
+                    response: retrofit2.Response<BaseResponse<KategoriPengaduanModel>>
+                ) {
+                    val responseData = response.body()?.response
+                    if (response.body()?.code == 200) {
+                        val saveData = Gson().toJson(responseData)
+
+                        mListKategori.addAll(responseData!!.toList())
+
+                        spinnerKategori(mListKategori)
+
+                        Log.e("listKategori", saveData.toString())
+                    }
+                }
+            })
+    }
+
+    fun spinnerKategori(data: ArrayList<KategoriPengaduanModel>){
+
+        /* kategori Type Spinner */
+        val sizeKategori = data.size
+        val spinnerKategoriItems = arrayOfNulls<String>(sizeKategori)
+        val spinnerKategoriValues = arrayOfNulls<String>(sizeKategori)
+        val spinnerKategoriPost = arrayOfNulls<String>(sizeKategori)
+
+        if (sizeKategori > 0) {
+            for (i in 0 until data.size) {
+                spinnerKategoriItems[i] = data[i].namaKategoriPengaduan
+                spinnerKategoriValues[i] = data[i].namaDinas
+                spinnerKategoriPost[i] = data[i].idDinas.toString()
+            }
+        }
+
+        val spinnerKategoriAdapter = ArrayAdapter(
+            this@PengaduanActivity,
+            android.R.layout.simple_spinner_dropdown_item,
+            spinnerKategoriItems
+        )
+
+        spinner.adapter = spinnerKategoriAdapter
+        spinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                val position = spinner.selectedItemPosition
+                listDataSpinner = spinnerKategoriItems[position].toString()
+                nama_instansi.text = spinnerKategoriValues[position].toString()
+                listSpinnerIdDinas = spinnerKategoriPost[position].toString()
+                Toast.makeText(this@PengaduanActivity, "$listSpinnerIdDinas $listDataSpinner", Toast.LENGTH_SHORT).show()
+            }
+
+        }
+
+
     }
 }
