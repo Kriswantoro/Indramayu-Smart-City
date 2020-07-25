@@ -45,7 +45,9 @@ class AkunFragment : Fragment() {
 
             namaPengguna.text = user.namaPengguna
             nomorPengguna.text = user.noTlpn
-            Picasso.get().load(user.fotoPengguna).into(fotoPengguna)
+            if (user.fotoPengguna == "") {
+                Picasso.get().load(R.drawable.foto_profile).into(fotoPengguna)
+            } else Picasso.get().load(user.fotoPengguna).into(fotoPengguna)
         } else {
             Toast.makeText(requireContext(), "You're not Loggedin", Toast.LENGTH_LONG).show()
             val intent = Intent(requireContext(), LoginActivity::class.java)
