@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -22,17 +23,24 @@ import com.kriswantoro.indramayu.R
 import com.kriswantoro.indramayu.intro.SharedPref
 import com.kriswantoro.indramayu.util.EndPoint
 import com.kriswantoro.indramayu.util.FileUtil
+import com.kriswantoro.indramayu.util.FileUtil.getFileName
+import com.kriswantoro.indramayu.util.UploadRequestBody
 import com.kriswantoro.indramayu.util.VolleySingleton
 import com.kriswantoro.indramayu.util.retrofit.network.BaseService
 import com.kriswantoro.indramayu.util.retrofit.network.response.BaseResponse
 import com.kriswantoro.indramayu.verifikasi.LoginActivity
+import com.t2r2.volleyexample.FileDataPart
+import com.t2r2.volleyexample.VolleyFileUploadRequest
 import kotlinx.android.synthetic.main.activity_pengaduan.*
 import kotlinx.android.synthetic.main.activity_pengaduan.btn_ganti_foto
+import okhttp3.MultipartBody
 import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
 import java.io.IOException
 
 class PengaduanActivity : AppCompatActivity(){
@@ -42,7 +50,8 @@ class PengaduanActivity : AppCompatActivity(){
     var noTelp: String = ""
     var lokasiPengaduan: String = ""
     var statusPengaduan: String = "Belum Proses"
-    private var pathImage: String? = ""
+    private var pathImage: Uri? = null
+    private var imageData: ByteArray? = null
     private var editPhoto: String = ""
     var idPengguna: String = ""
     val mListKategori = ArrayList<KategoriPengaduanModel>()
@@ -128,7 +137,7 @@ class PengaduanActivity : AppCompatActivity(){
                 val contentURI = data.data
                 try {
                     val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, contentURI)
-                    pathImage = FileUtil.BitmapToString(bitmap)
+                    pathImage = contentURI
                     Log.i("Success", "Image from gallery is Ready!")
                     foto_pengaduan.setImageBitmap(bitmap)
                 } catch (e: IOException) {
@@ -141,7 +150,7 @@ class PengaduanActivity : AppCompatActivity(){
                 val thum = data.extras
                 try {
                     val thumbnail = thum?.get("data") as Bitmap
-                    pathImage = FileUtil.BitmapToString(thumbnail)
+//                    pathImage = FileUtil.BitmapToString(thumbnail)
                     foto_pengaduan.setImageBitmap(thumbnail)
                     Log.i("Success", "Image from take picture is Ready!")
                 } catch (e: IOException) {
@@ -154,12 +163,13 @@ class PengaduanActivity : AppCompatActivity(){
     }
 
     private fun postPengaduan() {
+
         judulPengaduan = judul_pengaduan.text.toString()
         pesanPengaduan = pesan.text.toString()
         lokasiPengaduan = ed_lokasi_tempat.text.toString()
 
-        val fotoPengaduan =
-            "https://png.pngtree.com/element_our/png/20181206/users-vector-icon-png_260862.jpg"
+//        val fotoPengaduan =
+//            "https://png.pngtree.com/element_our/png/20181206/users-vector-icon-png_260862.jpg"
 
 
         val stringRequest = object : StringRequest(
@@ -188,7 +198,7 @@ class PengaduanActivity : AppCompatActivity(){
                 params["judul_pengaduan"] = judulPengaduan
                 params["kategori"] = listDataSpinner
                 params["pesan"] = pesanPengaduan
-                params["foto_pengaduan"] = fotoPengaduan
+                params["image"] = image.toString()
                 params["lokasi"] = lokasiPengaduan
                 params["status"] = statusPengaduan
                 params["status_kirim"] = ""
@@ -311,5 +321,13 @@ class PengaduanActivity : AppCompatActivity(){
         }
 
 
+    }
+
+    @Throws(IOException::class)
+    private fun createImageData(uri: Uri) {
+        val inputStream = contentResolver.openInputStream(uri)
+        inputStream?.buffered()?.use {
+            imageData = it.readBytes()
+        }
     }
 }
