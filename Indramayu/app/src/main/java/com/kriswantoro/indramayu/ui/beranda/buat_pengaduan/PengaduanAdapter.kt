@@ -1,6 +1,8 @@
 package com.kriswantoro.indramayu.ui.beranda.buat_pengaduan
 
+import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -56,12 +58,17 @@ class PengaduanAdapter(val list: ArrayList<PengaduanModel>) :
             lokasiTempat.text = pengaduan.lokasi
             idDeskripsi.text = pengaduan.pesan
             idProses.text = pengaduan.status
+
+            val base64String = pengaduan.fotoPengaduan
+            val imageBytes = Base64.decode(base64String, Base64.DEFAULT)
+            val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+
             if (pengaduan.fotoPengguna == "") {
                 Picasso.get().load(R.drawable.foto_profile).into(photoProfil)
             } else Picasso.get().load(pengaduan.fotoPengguna).into(photoProfil)
             if (pengaduan.fotoPengaduan == "") {
                 Picasso.get().load(R.drawable.gambar).into(photoPengaduan)
-            } else Picasso.get().load(pengaduan.fotoPengaduan).into(photoPengaduan)
+            } else photoPengaduan.setImageBitmap(decodedImage)
         }
 
     }

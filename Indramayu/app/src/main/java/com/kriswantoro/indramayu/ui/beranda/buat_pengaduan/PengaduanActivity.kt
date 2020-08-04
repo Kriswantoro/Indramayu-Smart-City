@@ -4,6 +4,9 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +16,7 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
@@ -43,14 +47,14 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
 
-class PengaduanActivity : AppCompatActivity(){
+class PengaduanActivity : AppCompatActivity() {
 
     var judulPengaduan: String = ""
     var pesanPengaduan: String = ""
     var noTelp: String = ""
     var lokasiPengaduan: String = ""
     var statusPengaduan: String = "Belum Proses"
-    private var pathImage: Uri? = null
+    private var pathImage: String? = ""
     private var imageData: ByteArray? = null
     private var editPhoto: String = ""
     var idPengguna: String = ""
@@ -58,6 +62,8 @@ class PengaduanActivity : AppCompatActivity(){
 
     var listSpinnerIdDinas = ""
     var listDataSpinner = ""
+
+    private var locationManager: LocationManager? = null
 
 
     private val GALLERY = 1
@@ -105,6 +111,45 @@ class PengaduanActivity : AppCompatActivity(){
         setContentView(R.layout.activity_pengaduan)
         spinner = findViewById(R.id.spin_kategori_pengaduan)
 
+        if (ContextCompat.checkSelfPermission(this@PengaduanActivity,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) !==
+            PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this@PengaduanActivity,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) !==
+            PackageManager.PERMISSION_GRANTED
+        ) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    this@PengaduanActivity,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) && ActivityCompat.shouldShowRequestPermissionRationale(
+                    this@PengaduanActivity,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                )
+            ) {
+                ActivityCompat.requestPermissions(
+                    this@PengaduanActivity,
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1
+                )
+
+                ActivityCompat.requestPermissions(
+                    this@PengaduanActivity,
+                    arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION), 1
+                )
+            } else {
+                ActivityCompat.requestPermissions(
+                    this@PengaduanActivity,
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1
+                )
+
+                ActivityCompat.requestPermissions(
+                    this@PengaduanActivity,
+                    arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION), 1
+                )
+            }
+        }
+
+        locationManager = getSystemService(LOCATION_SERVICE) as LocationManager?
 
 //        FileUtil.viewImage(this, foto_pengaduan, noTelp)
 
@@ -127,7 +172,64 @@ class PengaduanActivity : AppCompatActivity(){
             }
         }
 
+        btn_buat_pengaduan2.setOnClickListener {
+            try {
+                // Request location updates
+                locationManager?.requestLocationUpdates(
+                    LocationManager.NETWORK_PROVIDER,
+                    0L,
+                    0f,
+                    locationListener
+                )
+            } catch (ex: SecurityException) {
+                Log.d("myTag", "Security Exception, no location available")
+            }
+        }
+
         btn_ganti_foto.setOnClickListener { showPicture() }
+    }
+
+    private val locationListener: LocationListener = object : LocationListener {
+        override fun onLocationChanged(location: Location) {
+            Toast.makeText(
+                this@PengaduanActivity,
+                " ${location.longitude} : ${location.latitude}",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+
+        override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
+        override fun onProviderEnabled(provider: String) {}
+        override fun onProviderDisabled(provider: String) {}
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int, permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        when (requestCode) {
+            1 -> {
+                if (grantResults.isNotEmpty() && grantResults[0] ==
+                    PackageManager.PERMISSION_GRANTED
+                ) {
+                    if ((ContextCompat.checkSelfPermission(
+                            this@PengaduanActivity,
+                            Manifest.permission.ACCESS_FINE_LOCATION
+                        ) ===
+                                PackageManager.PERMISSION_GRANTED) && (ContextCompat.checkSelfPermission(
+                            this@PengaduanActivity,
+                            Manifest.permission.ACCESS_COARSE_LOCATION
+                        ) ===
+                                PackageManager.PERMISSION_GRANTED)
+                    ) {
+                        Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show()
+                }
+                return
+            }
+        }
     }
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -137,7 +239,7 @@ class PengaduanActivity : AppCompatActivity(){
                 val contentURI = data.data
                 try {
                     val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, contentURI)
-                    pathImage = contentURI
+                    pathImage = FileUtil.BitmapToString(bitmap)
                     Log.i("Success", "Image from gallery is Ready!")
                     foto_pengaduan.setImageBitmap(bitmap)
                 } catch (e: IOException) {
@@ -150,7 +252,7 @@ class PengaduanActivity : AppCompatActivity(){
                 val thum = data.extras
                 try {
                     val thumbnail = thum?.get("data") as Bitmap
-//                    pathImage = FileUtil.BitmapToString(thumbnail)
+                    pathImage = FileUtil.BitmapToString(thumbnail)
                     foto_pengaduan.setImageBitmap(thumbnail)
                     Log.i("Success", "Image from take picture is Ready!")
                 } catch (e: IOException) {
@@ -198,7 +300,7 @@ class PengaduanActivity : AppCompatActivity(){
                 params["judul_pengaduan"] = judulPengaduan
                 params["kategori"] = listDataSpinner
                 params["pesan"] = pesanPengaduan
-                params["image"] = image.toString()
+                params["foto_pengaduan"] = ("data:image/jpeg;base64," + pathImage!!)
                 params["lokasi"] = lokasiPengaduan
                 params["status"] = statusPengaduan
                 params["status_kirim"] = ""
@@ -277,7 +379,7 @@ class PengaduanActivity : AppCompatActivity(){
             })
     }
 
-    fun spinnerKategori(data: ArrayList<KategoriPengaduanModel>){
+    fun spinnerKategori(data: ArrayList<KategoriPengaduanModel>) {
 
         /* kategori Type Spinner */
         val sizeKategori = data.size
@@ -300,7 +402,7 @@ class PengaduanActivity : AppCompatActivity(){
         )
 
         spinner.adapter = spinnerKategoriAdapter
-        spinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
 
             }
@@ -315,7 +417,11 @@ class PengaduanActivity : AppCompatActivity(){
                 listDataSpinner = spinnerKategoriItems[position].toString()
                 nama_instansi.text = spinnerKategoriValues[position].toString()
                 listSpinnerIdDinas = spinnerKategoriPost[position].toString()
-                Toast.makeText(this@PengaduanActivity, "$listSpinnerIdDinas $listDataSpinner", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@PengaduanActivity,
+                    "$listSpinnerIdDinas $listDataSpinner",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
 
         }
