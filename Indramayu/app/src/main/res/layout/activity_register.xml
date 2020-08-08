@@ -86,6 +86,7 @@
         </androidx.cardview.widget.CardView>
 
         <Button
+            android:id="@+id/check_nik"
             android:layout_width="70dp"
             android:layout_height="52dp"
             android:background="@drawable/bgbutton2"
@@ -202,6 +203,7 @@
         android:layout_centerInParent="true"
         android:layout_alignParentBottom="true"
         android:background="@color/blue"
+        android:enabled="false"
         android:textSize="25dp"
         android:text="@string/daftar"
         android:textColor="@color/white"/>

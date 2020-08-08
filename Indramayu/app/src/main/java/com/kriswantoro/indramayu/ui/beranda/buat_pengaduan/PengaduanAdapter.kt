@@ -60,8 +60,10 @@ class PengaduanAdapter(val list: ArrayList<PengaduanModel>) :
             idProses.text = pengaduan.status
 
             val base64String = pengaduan.fotoPengaduan
-            val imageBytes = Base64.decode(base64String, Base64.DEFAULT)
+            val pureBase64Encoded = base64String.substring(base64String.indexOf(",") + 1)
+            val imageBytes = Base64.decode(pureBase64Encoded, Base64.DEFAULT)
             val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+
 
             if (pengaduan.fotoPengguna == "") {
                 Picasso.get().load(R.drawable.foto_profile).into(photoProfil)

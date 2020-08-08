@@ -236,20 +236,6 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="20dp" />
 
-            <Button
-                android:id="@+id/btn_buat_pengaduan2"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="@drawable/bgbutton2"
-                android:text="Buat Pengaduan"
-                android:textColor="#ffffff"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="10dp"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="20dp" />
-
-
         </LinearLayout>
 
 

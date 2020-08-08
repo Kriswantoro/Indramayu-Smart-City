@@ -25,11 +25,8 @@ import com.google.gson.Gson
 import com.kriswantoro.indramayu.MainActivity
 import com.kriswantoro.indramayu.R
 import com.kriswantoro.indramayu.intro.SharedPref
-import com.kriswantoro.indramayu.util.EndPoint
-import com.kriswantoro.indramayu.util.FileUtil
+import com.kriswantoro.indramayu.util.*
 import com.kriswantoro.indramayu.util.FileUtil.getFileName
-import com.kriswantoro.indramayu.util.UploadRequestBody
-import com.kriswantoro.indramayu.util.VolleySingleton
 import com.kriswantoro.indramayu.util.retrofit.network.BaseService
 import com.kriswantoro.indramayu.util.retrofit.network.response.BaseResponse
 import com.kriswantoro.indramayu.verifikasi.LoginActivity
@@ -54,6 +51,8 @@ class PengaduanActivity : AppCompatActivity() {
     var noTelp: String = ""
     var lokasiPengaduan: String = ""
     var statusPengaduan: String = "Belum Proses"
+    var lat: Double = 0.0
+    var long: Double = 0.0
     private var pathImage: String? = ""
     private var imageData: ByteArray? = null
     private var editPhoto: String = ""
@@ -111,44 +110,6 @@ class PengaduanActivity : AppCompatActivity() {
         setContentView(R.layout.activity_pengaduan)
         spinner = findViewById(R.id.spin_kategori_pengaduan)
 
-        if (ContextCompat.checkSelfPermission(this@PengaduanActivity,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) !==
-            PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this@PengaduanActivity,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) !==
-            PackageManager.PERMISSION_GRANTED
-        ) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(
-                    this@PengaduanActivity,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                ) && ActivityCompat.shouldShowRequestPermissionRationale(
-                    this@PengaduanActivity,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                )
-            ) {
-                ActivityCompat.requestPermissions(
-                    this@PengaduanActivity,
-                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1
-                )
-
-                ActivityCompat.requestPermissions(
-                    this@PengaduanActivity,
-                    arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION), 1
-                )
-            } else {
-                ActivityCompat.requestPermissions(
-                    this@PengaduanActivity,
-                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1
-                )
-
-                ActivityCompat.requestPermissions(
-                    this@PengaduanActivity,
-                    arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION), 1
-                )
-            }
-        }
-
         locationManager = getSystemService(LOCATION_SERVICE) as LocationManager?
 
 //        FileUtil.viewImage(this, foto_pengaduan, noTelp)
@@ -158,31 +119,32 @@ class PengaduanActivity : AppCompatActivity() {
         btn_buat_pengaduan.setOnClickListener {
 
             if (SharedPref.getInstance(this).isLoggedIn) {
+                if (PermissionHelper.haveSavePermission(this)) {
 
-                val user = SharedPref.getInstance(this).user
+                    val user = SharedPref.getInstance(this).user
 
-                idPengguna = user.idPengguna.toString()
-                postPengaduan()
-                Toast.makeText(this, "Sukses!", Toast.LENGTH_LONG).show()
-                startActivity(Intent(this, MainActivity::class.java))
+                    idPengguna = user.idPengguna.toString()
+
+                    try {
+                        // Request location updates
+                        locationManager?.requestLocationUpdates(
+                            LocationManager.NETWORK_PROVIDER,
+                            0L,
+                            0f,
+                            locationListener
+                        )
+                        postPengaduan(lat, long)
+
+                    } catch (ex: SecurityException) {
+                        Log.d("myTag", "Security Exception, no location available")
+                    }
+                } else {
+                    PermissionHelper.requestSavePermission(this)
+                }
             } else {
                 Toast.makeText(this, "You're not Login", Toast.LENGTH_LONG).show()
                 startActivity(Intent(this, LoginActivity::class.java))
                 finish()
-            }
-        }
-
-        btn_buat_pengaduan2.setOnClickListener {
-            try {
-                // Request location updates
-                locationManager?.requestLocationUpdates(
-                    LocationManager.NETWORK_PROVIDER,
-                    0L,
-                    0f,
-                    locationListener
-                )
-            } catch (ex: SecurityException) {
-                Log.d("myTag", "Security Exception, no location available")
             }
         }
 
@@ -191,45 +153,19 @@ class PengaduanActivity : AppCompatActivity() {
 
     private val locationListener: LocationListener = object : LocationListener {
         override fun onLocationChanged(location: Location) {
-            Toast.makeText(
-                this@PengaduanActivity,
-                " ${location.longitude} : ${location.latitude}",
-                Toast.LENGTH_LONG
-            ).show()
+//            Toast.makeText(
+//                this@PengaduanActivity,
+//                " ${location.longitude} : ${location.latitude}",
+//                Toast.LENGTH_LONG
+//            ).show()
+            lat = location.latitude
+            long = location.longitude
+            postPengaduan(lat, long)
         }
 
         override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
         override fun onProviderEnabled(provider: String) {}
         override fun onProviderDisabled(provider: String) {}
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int, permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        when (requestCode) {
-            1 -> {
-                if (grantResults.isNotEmpty() && grantResults[0] ==
-                    PackageManager.PERMISSION_GRANTED
-                ) {
-                    if ((ContextCompat.checkSelfPermission(
-                            this@PengaduanActivity,
-                            Manifest.permission.ACCESS_FINE_LOCATION
-                        ) ===
-                                PackageManager.PERMISSION_GRANTED) && (ContextCompat.checkSelfPermission(
-                            this@PengaduanActivity,
-                            Manifest.permission.ACCESS_COARSE_LOCATION
-                        ) ===
-                                PackageManager.PERMISSION_GRANTED)
-                    ) {
-                        Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show()
-                    }
-                } else {
-                    Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show()
-                }
-                return
-            }
-        }
     }
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -264,7 +200,7 @@ class PengaduanActivity : AppCompatActivity() {
         }
     }
 
-    private fun postPengaduan() {
+    private fun postPengaduan(latitude: Double, longitude: Double) {
 
         judulPengaduan = judul_pengaduan.text.toString()
         pesanPengaduan = pesan.text.toString()
@@ -279,8 +215,24 @@ class PengaduanActivity : AppCompatActivity() {
             Response.Listener<String> { response ->
                 try {
                     val obj = JSONObject(response)
-                    Toast.makeText(applicationContext, obj.getString("message"), Toast.LENGTH_LONG)
-                        .show()
+                    if (obj.getInt("code") == 200) {
+                        Toast.makeText(
+                            applicationContext,
+                            obj.getString("message"),
+                            Toast.LENGTH_LONG
+                        )
+                            .show()
+                        Toast.makeText(this, "Sukses!", Toast.LENGTH_LONG).show()
+                        startActivity(Intent(this, MainActivity::class.java))
+                    } else if (obj.getInt("code") == 300){
+                        Toast.makeText(
+                            applicationContext,
+                            obj.getString("message"),
+                            Toast.LENGTH_LONG
+                        )
+                            .show()
+                        Toast.makeText(this, "Error!", Toast.LENGTH_LONG).show()
+                    }
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
@@ -303,6 +255,8 @@ class PengaduanActivity : AppCompatActivity() {
                 params["foto_pengaduan"] = ("data:image/jpeg;base64," + pathImage!!)
                 params["lokasi"] = lokasiPengaduan
                 params["status"] = statusPengaduan
+                params["lat"] = lat.toString()
+                params["lng"] = long.toString()
                 params["status_kirim"] = ""
                 return params
             }
