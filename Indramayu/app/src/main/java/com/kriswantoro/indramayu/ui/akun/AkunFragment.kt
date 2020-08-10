@@ -45,7 +45,9 @@ class AkunFragment : Fragment() {
 
             namaPengguna.text = user.namaPengguna
             nomorPengguna.text = user.noTlpn
-            Picasso.get().load(user.fotoPengguna).into(fotoPengguna)
+            if (user.fotoPengguna == "") {
+                Picasso.get().load(R.drawable.foto_profile).into(fotoPengguna)
+            } else Picasso.get().load(user.fotoPengguna).into(fotoPengguna)
         } else {
             Toast.makeText(requireContext(), "You're not Loggedin", Toast.LENGTH_LONG).show()
             val intent = Intent(requireContext(), LoginActivity::class.java)
@@ -68,9 +70,9 @@ class AkunFragment : Fragment() {
         root.edit_profil.setOnClickListener {
             startActivity(Intent(context, EditAkunAktivity::class.java))
         }
-        root.tentang_apk.setOnClickListener {
-            startActivity(Intent(context, TentangISCActivity::class.java))
-        }
+//        root.tentang_apk.setOnClickListener {
+//            startActivity(Intent(context, TentangISCActivity::class.java))
+//        }
 
 //        root.foto_profil.setDrawableImage(R.drawable.foto_profile, true)
 

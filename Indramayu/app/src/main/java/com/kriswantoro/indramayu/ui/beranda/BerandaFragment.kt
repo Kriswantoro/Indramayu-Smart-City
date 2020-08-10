@@ -82,7 +82,9 @@ class BerandaFragment : Fragment() {
         if (SharedPref.getInstance(requireContext()).isLoggedIn) {
             val user = SharedPref.getInstance(requireContext()).user
             namaPengguna.text = user.namaPengguna
-            Picasso.get().load(user.fotoPengguna).into(fotoPengguna)
+            if (user.fotoPengguna == "") {
+                Picasso.get().load(R.drawable.foto_profile).into(fotoPengguna)
+            } else Picasso.get().load(user.fotoPengguna).into(fotoPengguna)
         } else {
             startActivity(Intent(context, LoginActivity::class.java))
         }
@@ -103,6 +105,7 @@ class BerandaFragment : Fragment() {
                             val menu = PengaduanModel(
                                 objectMenu.getString("id_pengaduan"),
                                 objectMenu.getString("id_pengguna"),
+                                objectMenu.getString("id_dinas"),
                                 objectMenu.getString("judul_pengaduan"),
                                 objectMenu.getString("kategori"),
                                 objectMenu.getString("pesan"),

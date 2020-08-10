@@ -4,7 +4,7 @@ object EndPoint {
 
     const val BASE = "http://192.168.43.67/smartcityindramayu/"
 
-    private val URL_ROOT = "http://192.168.43.67/smartcityindramayu/application/slim/v1/?apicall="
+    private val URL_ROOT = "http://192.168.43.67/smartcityindramayu/slim/v1/?apicall="
 
     //getpengaduan
     val URL_GET_PENGADUAN = URL_ROOT + "getpengaduan"
@@ -14,6 +14,9 @@ object EndPoint {
 
     //getkategori
     val URL_GET_KATEGORI = URL_ROOT + "getkategori"
+
+    //getkategoripengaduan
+    val URL_GET_KATEGORI_PENGADUAN = URL_ROOT + "getkategoripengaduan"
 
     //gettempat
     val URL_GET_TEMPAT = URL_ROOT + "gettempat"

@@ -18,6 +18,7 @@ class PengaduanModel (
 //    var id_deskripsi : String,
     var id_pengaduan : String,
     var idPengguna: String,
+    var idDinas: String,
     var judulPengaduan : String,
     var kategori : String,
     var pesan : String,

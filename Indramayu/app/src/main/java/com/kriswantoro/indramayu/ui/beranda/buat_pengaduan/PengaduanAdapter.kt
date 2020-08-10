@@ -56,7 +56,9 @@ class PengaduanAdapter(val list: ArrayList<PengaduanModel>) :
             lokasiTempat.text = pengaduan.lokasi
             idDeskripsi.text = pengaduan.pesan
             idProses.text = pengaduan.status
-            Picasso.get().load(pengaduan.fotoPengguna).into(photoProfil)
+            if (pengaduan.fotoPengguna == "") {
+                Picasso.get().load(R.drawable.foto_profile).into(photoProfil)
+            } else Picasso.get().load(pengaduan.fotoPengguna).into(photoProfil)
             if (pengaduan.fotoPengaduan == "") {
                 Picasso.get().load(R.drawable.gambar).into(photoPengaduan)
             } else Picasso.get().load(pengaduan.fotoPengaduan).into(photoPengaduan)
