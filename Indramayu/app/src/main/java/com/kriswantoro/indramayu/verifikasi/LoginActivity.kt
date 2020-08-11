@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
+import android.view.inputmethod.EditorInfo
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.android.volley.AuthFailureError
@@ -41,6 +43,16 @@ class LoginActivity : AppCompatActivity() {
         btn_lanjutkan.setOnClickListener {
             login()
         }
+
+//        val edtNoTelp: EditText = findViewById(R.id.edtNoTelp)
+//        edtNoTelp.setOnEditorActionListener { textView, i, keyEvent ->
+//            if (i==EditorInfo.IME_ACTION_SEARCH){
+//                login()
+//            }else{
+//                Toast.makeText(this, "Data ora weruh", Toast.LENGTH_LONG).show()
+//            }
+//            true
+//        }
     }
 
     override fun onBackPressed() {
@@ -67,7 +79,7 @@ class LoginActivity : AppCompatActivity() {
                     if (!obj.getBoolean("error")) {
                         Toast.makeText(
                             applicationContext,
-                            "Welcome to ISC",
+                            "Welcome to Indramayu Smart City",
                             Toast.LENGTH_SHORT
                         ).show()
 
