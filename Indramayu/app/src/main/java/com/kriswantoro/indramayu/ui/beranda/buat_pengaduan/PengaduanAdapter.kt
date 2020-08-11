@@ -10,10 +10,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.kriswantoro.indramayu.R
+import com.kriswantoro.indramayu.ui.tempat.list_tempat.TempatModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_list_pengaduan.view.*
 
-class PengaduanAdapter(val list: ArrayList<PengaduanModel>) :
+class PengaduanAdapter(val list: ArrayList<PengaduanModel>, val listener: (PengaduanModel) -> Unit) :
     RecyclerView.Adapter<PengaduanAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -28,16 +29,21 @@ class PengaduanAdapter(val list: ArrayList<PengaduanModel>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        holder.bindItem(list[position])
+        holder.bindItem(list[position], listener)
 
         when (holder.itemView.id_diproses.text) {
-            "belum diproses" -> {
+            "1" -> {
+                holder.itemView.id_diproses.text = "Belum Proses"
                 holder.itemView.id_diproses.setTextColor(Color.GRAY)
             }
-            "sedang diproses" -> {
+            "2" -> {
+                holder.itemView.id_diproses.text = "Sedang Proses"
                 holder.itemView.id_diproses.setTextColor(Color.GREEN)
             }
-            else -> holder.itemView.id_diproses.setTextColor(Color.RED)
+            else -> {
+                holder.itemView.id_diproses.text = "Selesai"
+                holder.itemView.id_diproses.setTextColor(Color.RED)
+            }
         }
     }
 
@@ -52,25 +58,33 @@ class PengaduanAdapter(val list: ArrayList<PengaduanModel>) :
         private val photoProfil: ImageView = itemView.foto_profil
         private val photoPengaduan: ImageView = itemView.foto_pengaduan
 
-        fun bindItem(pengaduan: PengaduanModel) {
+        fun bindItem(pengaduan: PengaduanModel, listener: (PengaduanModel) -> Unit) {
             listPengaduan.text = pengaduan.judulPengaduan
             idKategori.text = pengaduan.kategori
             lokasiTempat.text = pengaduan.lokasi
             idDeskripsi.text = pengaduan.pesan
             idProses.text = pengaduan.status
 
+            //base64 to bitmap pengaduan
             val base64String = pengaduan.fotoPengaduan
             val pureBase64Encoded = base64String.substring(base64String.indexOf(",") + 1)
             val imageBytes = Base64.decode(pureBase64Encoded, Base64.DEFAULT)
             val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
 
+            //base64 to bitmap profile
+            val base64StringPengguna = pengaduan.fotoPengguna
+            val pureBase64EncodedPengguna = base64StringPengguna.substring(base64StringPengguna.indexOf(",") + 1)
+            val imageBytesPengguna = Base64.decode(pureBase64EncodedPengguna, Base64.DEFAULT)
+            val decodedImagePengguna = BitmapFactory.decodeByteArray(imageBytesPengguna, 0, imageBytesPengguna.size)
 
             if (pengaduan.fotoPengguna == "") {
                 Picasso.get().load(R.drawable.foto_profile).into(photoProfil)
-            } else Picasso.get().load(pengaduan.fotoPengguna).into(photoProfil)
+            } else photoProfil.setImageBitmap(decodedImagePengguna)
             if (pengaduan.fotoPengaduan == "") {
                 Picasso.get().load(R.drawable.gambar).into(photoPengaduan)
             } else photoPengaduan.setImageBitmap(decodedImage)
+
+            itemView.setOnClickListener { listener(pengaduan) }
         }
 
     }

@@ -202,27 +202,43 @@
 
             </androidx.cardview.widget.CardView>
 
-<!--            <androidx.cardview.widget.CardView-->
-<!--                android:id="@+id/btn_tampilMaps"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:elevation="8dp"-->
-<!--                app:cardCornerRadius="5dp"-->
-<!--                app:cardUseCompatPadding="true">-->
-<!--                <TextView-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:text="Pilih Lokasi Akurat"-->
-<!--                    android:paddingTop="12dp"-->
-<!--                    android:paddingBottom="12dp"-->
-<!--                    android:textStyle="bold"-->
-<!--                    android:drawableLeft="@drawable/ic_location_on_black_24dp"-->
-<!--                    android:drawableRight="@drawable/ic_navigate_next_black_24dp"-->
-<!--                    android:textColor="#878787"-->
-<!--                    android:paddingHorizontal="8dp"-->
-<!--                    android:drawablePadding="8dp"/>-->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/btn_tampilMaps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="8dp"
+                app:cardCornerRadius="5dp"
+                app:cardUseCompatPadding="true">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Pilih Lokasi Akurat"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:textStyle="bold"
+                    android:drawableLeft="@drawable/ic_location_on_black_24dp"
+                    android:drawableRight="@drawable/ic_navigate_next_black_24dp"
+                    android:textColor="#878787"
+                    android:paddingHorizontal="8dp"
+                    android:drawablePadding="8dp"/>
 
-<!--            </androidx.cardview.widget.CardView>-->
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/lat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="6.98612649"
+                android:visibility="invisible"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/lng"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:visibility="invisible"
+                tools:text="-6.98612649"/>
 
 
             <Button

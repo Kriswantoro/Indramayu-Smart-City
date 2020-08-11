@@ -8,14 +8,6 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 class PengaduanModel (
-//    var list_pengaduan : String,
-//    var lokasi_tempat : String,
-//    var id_diproses : String,
-// //   var foto_pengaduan: String,
-////    var foto_profil : String,
-//    var id_deskripsi : String,
-//    var id_deskripsi : String,
-//    var id_deskripsi : String,
     var id_pengaduan : String,
     var idPengguna: String,
     var idDinas: String,
@@ -25,6 +17,8 @@ class PengaduanModel (
     var fotoPengaduan : String,
     var lokasi : String,
     var status: String,
+    var lat: String,
+    var lng: String,
     var fotoPengguna: String,
     var namaPengguna: String
 

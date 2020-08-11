@@ -23,9 +23,12 @@
 
             <TextView
                 android:id="@+id/cv_judul_saran"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_toStartOf="@+id/cv_tanggal_saran"
                 android:text="Judul Saran"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:textColor="#000"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -34,13 +37,15 @@
                 android:id="@+id/cv_tanggal_saran"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:text="17-0-2020" />
 
             <TextView
                 android:id="@+id/cv_deskripsi"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLines="3"
+                android:layout_toStartOf="@+id/cv_dinas"
                 android:layout_below="@+id/cv_judul_saran"
                 android:layout_marginTop="4dp"
                 android:text="Deskripsi" />

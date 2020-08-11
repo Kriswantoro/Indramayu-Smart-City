@@ -3,7 +3,9 @@ package com.kriswantoro.indramayu.ui.beranda
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +25,7 @@ import com.kriswantoro.indramayu.intro.SharedPref
 import com.kriswantoro.indramayu.ui.beranda.buat_pengaduan.PengaduanAdapter
 import com.kriswantoro.indramayu.ui.beranda.buat_pengaduan.PengaduanModel
 import com.kriswantoro.indramayu.ui.beranda.panggilan_darurat.PanggilanDaruratActivity
+import com.kriswantoro.indramayu.ui.tempat.MapsActivity
 import com.kriswantoro.indramayu.util.EndPoint
 import com.kriswantoro.indramayu.verifikasi.LoginActivity
 import com.squareup.picasso.Picasso
@@ -35,9 +38,7 @@ class BerandaFragment : Fragment() {
 
     private val mDataList = ArrayList<PengaduanModel>()
     lateinit var listPengaduan: RecyclerView
-
-    var ctx: Context? = null
-    private var idPengguna = ""
+    lateinit var adapter: PengaduanAdapter
     private lateinit var namaPengguna: TextView
     private lateinit var fotoPengguna: com.mikhaellopez.circularimageview.CircularImageView
 
@@ -72,19 +73,25 @@ class BerandaFragment : Fragment() {
         getPengaduan()
 
         listPengaduan = root.findViewById(R.id.list_pengaduan)
-
         listPengaduan.layoutManager = LinearLayoutManager(context)
 
         return root
     }
 
     fun check() {
+
         if (SharedPref.getInstance(requireContext()).isLoggedIn) {
             val user = SharedPref.getInstance(requireContext()).user
+
+            val base64String = user.fotoPengguna
+            val pureBase64Encoded = base64String?.substring(base64String.indexOf(",") + 1)
+            val imageBytes = Base64.decode(pureBase64Encoded, Base64.DEFAULT)
+            val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+
             namaPengguna.text = user.namaPengguna
             if (user.fotoPengguna == "") {
                 Picasso.get().load(R.drawable.foto_profile).into(fotoPengguna)
-            } else Picasso.get().load(user.fotoPengguna).into(fotoPengguna)
+            } else fotoPengguna.setImageBitmap(decodedImage)
         } else {
             startActivity(Intent(context, LoginActivity::class.java))
         }
@@ -112,11 +119,22 @@ class BerandaFragment : Fragment() {
                                 objectMenu.getString("foto_pengaduan"),
                                 objectMenu.getString("lokasi"),
                                 objectMenu.getString("status"),
+                                objectMenu.getString("lat"),
+                                objectMenu.getString("lng"),
                                 objectMenu.getString("foto_pengguna"),
                                 objectMenu.getString("nama_pengguna")
                             )
                             mDataList.add(menu)
-                            val adapter = PengaduanAdapter(mDataList)
+                            adapter = PengaduanAdapter(mDataList) {
+                                val intent = Intent(requireContext(), MapsActivity::class.java)
+                                intent.putExtra("nama_tempat", it.lokasi)
+                                intent.putExtra("lat", it.lat.toDouble())
+                                intent.putExtra("lng", it.lng.toDouble())
+                                startActivity(intent)
+//                                Toast.makeText(requireContext(), it.lokasi, Toast.LENGTH_SHORT).show()
+//                                Toast.makeText(requireContext(), it.lat, Toast.LENGTH_SHORT).show()
+//                                Toast.makeText(requireContext(), it.lng, Toast.LENGTH_SHORT).show()
+                            }
                             listPengaduan.adapter = adapter
                         }
                     } else {

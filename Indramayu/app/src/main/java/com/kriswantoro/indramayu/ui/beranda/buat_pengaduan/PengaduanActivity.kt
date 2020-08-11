@@ -26,7 +26,6 @@ import com.kriswantoro.indramayu.MainActivity
 import com.kriswantoro.indramayu.R
 import com.kriswantoro.indramayu.intro.SharedPref
 import com.kriswantoro.indramayu.util.*
-import com.kriswantoro.indramayu.util.FileUtil.getFileName
 import com.kriswantoro.indramayu.util.retrofit.network.BaseService
 import com.kriswantoro.indramayu.util.retrofit.network.response.BaseResponse
 import com.kriswantoro.indramayu.verifikasi.LoginActivity
@@ -34,6 +33,8 @@ import com.t2r2.volleyexample.FileDataPart
 import com.t2r2.volleyexample.VolleyFileUploadRequest
 import kotlinx.android.synthetic.main.activity_pengaduan.*
 import kotlinx.android.synthetic.main.activity_pengaduan.btn_ganti_foto
+import kotlinx.android.synthetic.main.activity_pengaduan.foto_pengaduan
+import kotlinx.android.synthetic.main.item_list_pengaduan.*
 import okhttp3.MultipartBody
 import org.json.JSONException
 import org.json.JSONObject
@@ -50,65 +51,32 @@ class PengaduanActivity : AppCompatActivity() {
     var pesanPengaduan: String = ""
     var noTelp: String = ""
     var lokasiPengaduan: String = ""
-    var statusPengaduan: String = "Belum Proses"
+    var statusPengaduan: String = "1"
     var lat: Double = 0.0
     var long: Double = 0.0
-    private var pathImage: String? = ""
-    private var imageData: ByteArray? = null
-    private var editPhoto: String = ""
     var idPengguna: String = ""
     val mListKategori = ArrayList<KategoriPengaduanModel>()
 
     var listSpinnerIdDinas = ""
     var listDataSpinner = ""
 
+    lateinit var textLat: TextView
+    lateinit var textLng: TextView
+    private lateinit var spinner: Spinner
+
+    private var pathImage: String? = ""
     private var locationManager: LocationManager? = null
-
-
     private val GALLERY = 1
     private val CAMERA = 2
     private val PERMISSION_CODE = 1001
-
-    private lateinit var spinner: Spinner
-
-
-    companion object {
-        private var arrayAdapter: ArrayAdapter<String>? = null
-        private var itemList = arrayOf(
-            "Gelandangan dan Pengemis",
-            "Sampah",
-            "Jalanan dan Rambu Lalulintas",
-            "Banjir",
-            "Mobilitas dan Akses",
-            "Tunawisma/Pengemis",
-            "Kaki Lima Liar",
-            "PJU Rusak",
-            "Tanaman Bermasalah",
-            "Fasilitas Umum",
-            "Parkir Liar",
-            "Pungutan Liar",
-            "Pelanggaran Ketertiban",
-            "Rambu Jalan",
-            "Kebutuhan Sembako",
-            "Orang Hilang",
-            "Iklan Liar"
-        )
-
-        private const val GITHUB_REPOSITORY = "https://github.com/Dhaval2404/ImagePicker"
-
-        private const val PROFILE_IMAGE_REQ_CODE = 101
-        private const val GALLERY_IMAGE_REQ_CODE = 102
-        private const val CAMERA_IMAGE_REQ_CODE = 103
-    }
-
-    private var mCameraFile: File? = null
-    private var mGalleryFile: File? = null
-    private var mProfileFile: File? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pengaduan)
         spinner = findViewById(R.id.spin_kategori_pengaduan)
+
+        textLat = findViewById(R.id.lat)
+        textLng = findViewById(R.id.lng)
 
         locationManager = getSystemService(LOCATION_SERVICE) as LocationManager?
 
@@ -116,31 +84,41 @@ class PengaduanActivity : AppCompatActivity() {
 
         getKategoriPengaduan()
 
+        btn_tampilMaps.setOnClickListener {
+            if (PermissionHelper.haveSavePermission(this)) {
+                try {
+                    // Request location updates
+                    locationManager?.requestLocationUpdates(
+                        LocationManager.NETWORK_PROVIDER,
+                        0L,
+                        0f,
+                        locationListener
+                    )
+
+                } catch (ex: SecurityException) {
+                    Log.d("myTag", "Security Exception, no location available")
+                }
+            } else {
+                PermissionHelper.requestSavePermission(this)
+            }
+        }
+
         btn_buat_pengaduan.setOnClickListener {
 
             if (SharedPref.getInstance(this).isLoggedIn) {
-                if (PermissionHelper.haveSavePermission(this)) {
 
-                    val user = SharedPref.getInstance(this).user
+                val user = SharedPref.getInstance(this).user
 
-                    idPengguna = user.idPengguna.toString()
+                idPengguna = user.idPengguna.toString()
 
-                    try {
-                        // Request location updates
-                        locationManager?.requestLocationUpdates(
-                            LocationManager.NETWORK_PROVIDER,
-                            0L,
-                            0f,
-                            locationListener
-                        )
-                        postPengaduan(lat, long)
-
-                    } catch (ex: SecurityException) {
-                        Log.d("myTag", "Security Exception, no location available")
-                    }
+                if (textLat.text.isEmpty()&&textLng.text.isEmpty()&&judul_pengaduan.text.isEmpty()&&ed_lokasi_tempat.text.isEmpty()&&pesan.text.isEmpty()){
+                    Toast.makeText(this@PengaduanActivity, "Turn On your GPS", Toast.LENGTH_SHORT).show()
                 } else {
-                    PermissionHelper.requestSavePermission(this)
+                    lat = textLat.text.toString().toDouble()
+                    long = textLng.text.toString().toDouble()
+                    postPengaduan(lat, long)
                 }
+
             } else {
                 Toast.makeText(this, "You're not Login", Toast.LENGTH_LONG).show()
                 startActivity(Intent(this, LoginActivity::class.java))
@@ -148,19 +126,13 @@ class PengaduanActivity : AppCompatActivity() {
             }
         }
 
-        btn_ganti_foto.setOnClickListener { showPicture() }
+        btn_ganti_foto.setOnClickListener{ showPicture() }
     }
 
     private val locationListener: LocationListener = object : LocationListener {
         override fun onLocationChanged(location: Location) {
-//            Toast.makeText(
-//                this@PengaduanActivity,
-//                " ${location.longitude} : ${location.latitude}",
-//                Toast.LENGTH_LONG
-//            ).show()
-            lat = location.latitude
-            long = location.longitude
-            postPengaduan(lat, long)
+            textLat.text = "${location.latitude}"
+            textLng.text = "${location.longitude}"
         }
 
         override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
@@ -206,10 +178,6 @@ class PengaduanActivity : AppCompatActivity() {
         pesanPengaduan = pesan.text.toString()
         lokasiPengaduan = ed_lokasi_tempat.text.toString()
 
-//        val fotoPengaduan =
-//            "https://png.pngtree.com/element_our/png/20181206/users-vector-icon-png_260862.jpg"
-
-
         val stringRequest = object : StringRequest(
             Method.POST, EndPoint.URL_POST_PENGADUAN,
             Response.Listener<String> { response ->
@@ -224,7 +192,7 @@ class PengaduanActivity : AppCompatActivity() {
                             .show()
                         Toast.makeText(this, "Sukses!", Toast.LENGTH_LONG).show()
                         startActivity(Intent(this, MainActivity::class.java))
-                    } else if (obj.getInt("code") == 300){
+                    } else if (obj.getInt("code") == 300) {
                         Toast.makeText(
                             applicationContext,
                             obj.getString("message"),
@@ -255,25 +223,23 @@ class PengaduanActivity : AppCompatActivity() {
                 params["foto_pengaduan"] = ("data:image/jpeg;base64," + pathImage!!)
                 params["lokasi"] = lokasiPengaduan
                 params["status"] = statusPengaduan
-                params["lat"] = lat.toString()
-                params["lng"] = long.toString()
+                params["lat"] = latitude.toString()
+                params["lng"] = longitude.toString()
                 params["status_kirim"] = ""
                 return params
             }
         }
 
-        //request
         VolleySingleton.getInstance(this).addToRequestQueue(stringRequest)
     }
 
     fun showPicture() {
         val pictureDialog = AlertDialog.Builder(this)
         pictureDialog.setTitle("Option to Access")
-        val pic = arrayOf("Choose from Gallery", "Capture by Camera")
+        val pic = arrayOf("Capture by Camera")
         pictureDialog.setItems(pic) { dialog, which ->
             when (which) {
-                0 -> choosefromGallery()
-                1 -> capturebyCamera()
+                0 -> capturebyCamera()
             }
         }
         pictureDialog.show()
@@ -377,17 +343,6 @@ class PengaduanActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
-
-        }
-
-
-    }
-
-    @Throws(IOException::class)
-    private fun createImageData(uri: Uri) {
-        val inputStream = contentResolver.openInputStream(uri)
-        inputStream?.buffered()?.use {
-            imageData = it.readBytes()
         }
     }
 }
