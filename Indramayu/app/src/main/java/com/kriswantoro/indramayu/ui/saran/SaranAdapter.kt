@@ -36,10 +36,12 @@ class SaranAdapter(val list : ArrayList<SaranModel>) : RecyclerView.Adapter<Sara
         private val judulSaran: TextView = itemView.cv_judul_saran
         private val desc: TextView = itemView.cv_deskripsi
         private val tglSaran: TextView = itemView.cv_tanggal_saran
+        private val namaDinas: TextView = itemView.cv_dinas
 
         fun bindItem(saran: SaranModel) {
-            judulSaran.text = saran.judulSaran
+            judulSaran.text = "${saran.judulSaran} by ${saran.namaPengguna}"
             desc.text = saran.descSaran
+            namaDinas.text = saran.namaDinas
 
             val tgl = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
                 .parse(saran.tglSaran)

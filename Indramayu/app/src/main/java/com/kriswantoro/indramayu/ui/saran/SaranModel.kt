@@ -9,6 +9,10 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 class SaranModel (
     val idSaran: String,
+    val idPengguna: String,
+    val idDinas: String,
+    val namaPengguna: String,
+    val namaDinas: String,
     val judulSaran: String,
     val descSaran: String,
     val tglSaran: String

@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.AuthFailureError
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
@@ -30,6 +31,7 @@ class SaranFragment : Fragment() {
     private val mDataList = ArrayList<SaranModel>()
     private lateinit var adapter: SaranAdapter
     lateinit var listSaran: RecyclerView
+    var idPengguna: String = ""
 
     @SuppressLint("WrongConstant")
     override fun onCreateView(
@@ -43,6 +45,10 @@ class SaranFragment : Fragment() {
                 TambahSaranActivity::class.java))
         }
         if (SharedPref.getInstance(requireContext()).isLoggedIn) {
+
+            val user = SharedPref.getInstance(requireContext()).user
+            idPengguna = user.idPengguna.toString()
+
             listSaran()
         } else {
             Toast.makeText(requireContext(), "You're not Loggedin", Toast.LENGTH_LONG).show()
@@ -55,19 +61,22 @@ class SaranFragment : Fragment() {
     }
 
     private fun listSaran(){
-            val stringRequest = StringRequest(
-                Request.Method.GET,
-                EndPoint.URL_GET_SARAN,
-                Response.Listener<String> { s ->
+            val stringRequest = object : StringRequest(
+                Method.POST, EndPoint.URL_GET_SARAN,
+                Response.Listener<String> { response ->
                     try {
-                        val obj = JSONObject(s)
+                        val obj = JSONObject(response)
                         if (!obj.getBoolean("error")) {
-                            val array = obj.getJSONArray("data")
+                            val array = obj.getJSONArray("response")
 
                             for (i in 0 until array.length()) {
                                 val objectSaran = array.getJSONObject(i)
                                 val saran = SaranModel(
                                     objectSaran.getString("id_saran"),
+                                    objectSaran.getString("id_pengguna"),
+                                    objectSaran.getString("id_dinas"),
+                                    objectSaran.getString("nama_pengguna"),
+                                    objectSaran.getString("nama_dinas"),
                                     objectSaran.getString("judul_saran"),
                                     objectSaran.getString("deskripsi"),
                                     objectSaran.getString("tgl_saran")
@@ -83,13 +92,17 @@ class SaranFragment : Fragment() {
                         e.printStackTrace()
                     }
                 },
-                Response.ErrorListener {
-                    Toast.makeText(
-                        requireContext(),
-                        it.message,
-                        Toast.LENGTH_LONG
-                    ).show()
-                })
+                Response.ErrorListener { error ->
+                    Toast.makeText(requireContext(), error.message, Toast.LENGTH_SHORT).show()
+                }) {
+                @Throws(AuthFailureError::class)
+                override fun getParams(): MutableMap<String, String> {
+                    val params = HashMap<String, String>()
+                    params["id_pengguna"] = idPengguna
+
+                    return params
+                }
+            }
             val requestQueue = Volley.newRequestQueue(requireContext())
             requestQueue.add<String>(stringRequest)
     }
