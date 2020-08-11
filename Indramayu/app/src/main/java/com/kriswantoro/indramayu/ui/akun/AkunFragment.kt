@@ -1,7 +1,9 @@
 package com.kriswantoro.indramayu.ui.akun
 
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Base64
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,17 +11,21 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import com.github.dhaval2404.imagepicker.sample.setDrawableImage
-import com.kriswantoro.indramayu.MainActivity
+import com.android.volley.AuthFailureError
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
 
 import com.kriswantoro.indramayu.R
 import com.kriswantoro.indramayu.intro.SharedPref
 import com.kriswantoro.indramayu.ui.akun.edit_akun.EditAkunAktivity
+import com.kriswantoro.indramayu.util.EndPoint
+import com.kriswantoro.indramayu.util.VolleySingleton
 import com.kriswantoro.indramayu.verifikasi.LoginActivity
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_edit_akun.*
+import kotlinx.android.synthetic.main.fragment_akun.*
 import kotlinx.android.synthetic.main.fragment_akun.view.*
-import kotlinx.android.synthetic.main.fragment_akun.view.foto_profil
+import org.json.JSONException
+import org.json.JSONObject
 
 class AkunFragment : Fragment() {
 
@@ -27,13 +33,22 @@ class AkunFragment : Fragment() {
     private lateinit var nomorPengguna: TextView
     private lateinit var fotoPengguna: com.mikhaellopez.circularimageview.CircularImageView
 
+    lateinit var belum: TextView
+    lateinit var sedang: TextView
+    lateinit var selesai: TextView
+
+    var idPengguna: String = ""
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
 
         val root = inflater.inflate(R.layout.fragment_akun, container, false)
+
+        belum = root.findViewById(R.id.riwayat_belum)
+        sedang = root.findViewById(R.id.riwayat_sedang)
+        selesai = root.findViewById(R.id.riwayat_selesai)
 
         if (SharedPref.getInstance(requireContext()).isLoggedIn) {
 
@@ -43,17 +58,27 @@ class AkunFragment : Fragment() {
 
             val user = SharedPref.getInstance(requireContext()).user
 
+            val base64String = user.fotoPengguna
+            val pureBase64Encoded = base64String?.substring(base64String.indexOf(",") + 1)
+            val imageBytes = Base64.decode(pureBase64Encoded, Base64.DEFAULT)
+            val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+
+            idPengguna = user.idPengguna.toString()
             namaPengguna.text = user.namaPengguna
             nomorPengguna.text = user.noTlpn
             if (user.fotoPengguna == "") {
                 Picasso.get().load(R.drawable.foto_profile).into(fotoPengguna)
-            } else Picasso.get().load(user.fotoPengguna).into(fotoPengguna)
+            } else fotoPengguna.setImageBitmap(decodedImage)
         } else {
             Toast.makeText(requireContext(), "You're not Loggedin", Toast.LENGTH_LONG).show()
             val intent = Intent(requireContext(), LoginActivity::class.java)
             startActivity(intent)
             activity?.finish()
         }
+
+        getRiwayatBelum("1", idPengguna)
+        getRiwayatSedang("2", idPengguna)
+        getRiwayatSelesai("3", idPengguna)
 
         root.btn_keluar.setOnClickListener {
             AlertDialog.Builder(requireContext())
@@ -68,19 +93,131 @@ class AkunFragment : Fragment() {
                 .show()
         }
         root.edit_profil.setOnClickListener {
-            startActivity(Intent(context, EditAkunAktivity::class.java))
+            Toast.makeText(requireContext(), "Soon!!!", Toast.LENGTH_SHORT).show()
+//            startActivity(Intent(context, EditAkunAktivity::class.java))
         }
-//        root.tentang_apk.setOnClickListener {
-//            startActivity(Intent(context, TentangISCActivity::class.java))
-//        }
-
-//        root.foto_profil.setDrawableImage(R.drawable.foto_profile, true)
-
-//        Picasso.get()
-//            .load("https://non-indonesia-distribution.brta.in/2018-08/ce8014b02db258d883f545cc27bf4b35.jpg")
-//            .into(root.foto_profil)
 
         return root
+    }
+
+    fun getRiwayatBelum(status: String, idPengguna: String) {
+        val stringRequest = object : StringRequest(
+            Method.POST, EndPoint.URL_RIWAYAT,
+            Response.Listener<String> { response ->
+
+                try {
+                    val obj = JSONObject(response)
+
+                    if (!obj.getBoolean("error")) {
+
+                        val array = obj.getJSONArray("response")
+                        for (i in 0 until array.length()) {
+                            val riwayatJson = array.getJSONObject(i)
+
+                            val riwayat = RiwayatModel(riwayatJson.getString("count"))
+
+                            belum.text = riwayat.count
+                        }
+                    } else {
+                        Toast.makeText(requireContext(), "GAGAL", Toast.LENGTH_SHORT).show()
+                    }
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            },
+            Response.ErrorListener { error ->
+                Toast.makeText(requireContext(), error.message, Toast.LENGTH_SHORT).show()
+            }) {
+            @Throws(AuthFailureError::class)
+            override fun getParams(): MutableMap<String, String> {
+                val params = HashMap<String, String>()
+                params["status"] = status
+                params["id_pengguna"] = idPengguna
+
+                return params
+            }
+        }
+        VolleySingleton.getInstance(requireContext()).addToRequestQueue(stringRequest)
+    }
+
+    fun getRiwayatSedang(status: String, idPengguna: String) {
+        val stringRequest = object : StringRequest(
+            Method.POST, EndPoint.URL_RIWAYAT,
+            Response.Listener<String> { response ->
+
+                try {
+                    val obj = JSONObject(response)
+
+                    if (!obj.getBoolean("error")) {
+
+                        val array = obj.getJSONArray("response")
+                        for (i in 0 until array.length()) {
+                            val riwayatJson = array.getJSONObject(i)
+
+                            val riwayat = RiwayatModel(riwayatJson.getString("count"))
+
+                            sedang.text = riwayat.count
+                        }
+                    } else {
+                        Toast.makeText(requireContext(), "GAGAL", Toast.LENGTH_SHORT).show()
+                    }
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            },
+            Response.ErrorListener { error ->
+                Toast.makeText(requireContext(), error.message, Toast.LENGTH_SHORT).show()
+            }) {
+            @Throws(AuthFailureError::class)
+            override fun getParams(): MutableMap<String, String> {
+                val params = HashMap<String, String>()
+                params["status"] = status
+                params["id_pengguna"] = idPengguna
+
+                return params
+            }
+        }
+        VolleySingleton.getInstance(requireContext()).addToRequestQueue(stringRequest)
+    }
+
+    fun getRiwayatSelesai(status: String, idPengguna: String) {
+        val stringRequest = object : StringRequest(
+            Method.POST, EndPoint.URL_RIWAYAT,
+            Response.Listener<String> { response ->
+
+                try {
+                    val obj = JSONObject(response)
+
+                    if (!obj.getBoolean("error")) {
+
+                        val array = obj.getJSONArray("response")
+                        for (i in 0 until array.length()) {
+                            val riwayatJson = array.getJSONObject(i)
+
+                            val riwayat = RiwayatModel(riwayatJson.getString("count"))
+
+                            selesai.text = riwayat.count
+                        }
+                    } else {
+                        Toast.makeText(requireContext(), "GAGAL", Toast.LENGTH_SHORT).show()
+                    }
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            },
+            Response.ErrorListener { error ->
+                Toast.makeText(requireContext(), error.message, Toast.LENGTH_SHORT).show()
+            }) {
+            @Throws(AuthFailureError::class)
+            override fun getParams(): MutableMap<String, String> {
+                val params = HashMap<String, String>()
+                params["status"] = status
+                params["id_pengguna"] = idPengguna
+
+                return params
+            }
+        }
+        VolleySingleton.getInstance(requireContext()).addToRequestQueue(stringRequest)
     }
 
 }

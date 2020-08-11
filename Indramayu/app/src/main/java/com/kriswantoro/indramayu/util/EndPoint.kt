@@ -38,4 +38,7 @@ object EndPoint {
 
     //register
     val URL_REGISTER = URL_ROOT + "postregister"
+
+    //riwayat
+    val URL_RIWAYAT = URL_ROOT + "getriwayat"
 }
