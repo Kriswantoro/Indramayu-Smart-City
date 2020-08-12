@@ -2,10 +2,10 @@ package com.kriswantoro.indramayu.util
 
 object EndPoint {
 
-    const val BASE = "http://192.168.43.140/smartcityindramayu/"
+    const val BASE = "http://192.168.100.48/smartcityindramayu/"
 //    const val BASE = "http://10.0.2.2/smartcityindramayu/"
 
-    private val URL_ROOT = "http://192.168.43.140/smartcityindramayu/slim/v1/?apicall="
+    private val URL_ROOT = "http://192.168.100.48/smartcityindramayu/slim/v1/?apicall="
 //    private val URL_ROOT = "http://10.0.2.2/smartcityindramayu/slim/v1/?apicall="
 
 
