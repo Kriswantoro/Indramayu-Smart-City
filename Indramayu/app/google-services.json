@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "68704083519",
+    "firebase_url": "https://berandaactivity.firebaseio.com",
+    "project_id": "berandaactivity",
+    "storage_bucket": "berandaactivity.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:68704083519:android:cb0fec61f447cbe23ca28a",
+        "android_client_info": {
+          "package_name": "com.kriswantoro.indramayu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "68704083519-cujvp8lmikcovj97bhlkqi0ebmrt9kmb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kriswantoro.indramayu",
+            "certificate_hash": "9201f3b7b1d1d7b66c6c98f8f6051df4487389f5"
+          }
+        },
+        {
+          "client_id": "68704083519-71teofsh4lmtfp4rsk64odvab956n385.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFwZ9BqHx41sbm6x3Ja3rY-bmktm1VMUk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "68704083519-71teofsh4lmtfp4rsk64odvab956n385.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

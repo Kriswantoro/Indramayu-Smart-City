@@ -41,7 +41,7 @@
                 android:layout_marginBottom="15dp"
                 android:orientation="horizontal">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <TextView
                     android:id="@+id/editTextCode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -53,7 +53,7 @@
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
                     android:textColor="@color/blue">
                     <requestFocus />
-                </com.google.android.material.textfield.TextInputEditText>
+                </TextView>
 
             </LinearLayout>
 

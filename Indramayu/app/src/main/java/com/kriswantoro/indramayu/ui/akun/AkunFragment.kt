@@ -18,6 +18,7 @@ import com.android.volley.toolbox.StringRequest
 import com.kriswantoro.indramayu.R
 import com.kriswantoro.indramayu.intro.SharedPref
 import com.kriswantoro.indramayu.ui.akun.edit_akun.EditAkunAktivity
+import com.kriswantoro.indramayu.ui.tempat.list_tempat.ibadah.IbadahActivity
 import com.kriswantoro.indramayu.util.EndPoint
 import com.kriswantoro.indramayu.util.VolleySingleton
 import com.kriswantoro.indramayu.verifikasi.LoginActivity
@@ -95,6 +96,10 @@ class AkunFragment : Fragment() {
         root.edit_profil.setOnClickListener {
             Toast.makeText(requireContext(), "Soon!!!", Toast.LENGTH_SHORT).show()
 //            startActivity(Intent(context, EditAkunAktivity::class.java))
+        }
+        root.btn_isc.setOnClickListener {
+            val intent = Intent(context, TentangISCActivity::class.java)
+            startActivity(intent)
         }
 
         return root

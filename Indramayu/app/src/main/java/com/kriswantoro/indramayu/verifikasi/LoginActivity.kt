@@ -44,15 +44,6 @@ class LoginActivity : AppCompatActivity() {
             login()
         }
 
-//        val edtNoTelp: EditText = findViewById(R.id.edtNoTelp)
-//        edtNoTelp.setOnEditorActionListener { textView, i, keyEvent ->
-//            if (i==EditorInfo.IME_ACTION_SEARCH){
-//                login()
-//            }else{
-//                Toast.makeText(this, "Data ora weruh", Toast.LENGTH_LONG).show()
-//            }
-//            true
-//        }
     }
 
     override fun onBackPressed() {
@@ -62,12 +53,14 @@ class LoginActivity : AppCompatActivity() {
 
     fun login() {
         val noTelp = edtNoTelp.text.toString()
+        val code = "+62"
 
         if (TextUtils.isEmpty(noTelp)) {
             edtNoTelp.error = "Please enter No Tlpn"
             edtNoTelp.requestFocus()
             return
         }
+        val phoneNumber = code + noTelp
 
         val stringRequest = object : StringRequest(
             Method.POST, EndPoint.URL_LOGIN,
@@ -96,13 +89,14 @@ class LoginActivity : AppCompatActivity() {
                             )
 
                             SharedPref.getInstance(applicationContext).userLogin(user)
+
                             finish()
-                            startActivity(Intent(applicationContext, MainActivity::class.java))
-//                            Toast.makeText(this, "Welcome to ISC", Toast.LENGTH_LONG).show()
+                            val intent = Intent (this, OTPActivity::class.java)
+                            intent.putExtra("phoneNumber",phoneNumber)
+                            startActivity(intent)
                         }
                     } else {
 
-                        //Toast.makeText(applicationContext, "Kode Pendonor tidak ditemukan, harap masukkan dengan benar", Toast.LENGTH_SHORT).show()
                         AlertDialog.Builder(this)
                             .setTitle("Peringatan !")
                             .setMessage("Maaf, Nomer Telepon tidak ditemukan, harap masukkan dengan benar")
