@@ -78,8 +78,8 @@ class PengaduanActivity : AppCompatActivity() {
         setContentView(R.layout.activity_pengaduan)
         spinner = findViewById(R.id.spin_kategori_pengaduan)
 
-//        textLat = findViewById(R.id.lat)
-//        textLng = findViewById(R.id.lng)
+        textLat = findViewById(R.id.lat)
+        textLng = findViewById(R.id.lng)
 
         locationManager = getSystemService(LOCATION_SERVICE) as LocationManager?
         pused=LocationServices.getFusedLocationProviderClient(this)
@@ -91,22 +91,22 @@ class PengaduanActivity : AppCompatActivity() {
         btn_tampilMaps.setOnClickListener {
             RequestPermission()
             getLastLocation()
-//            if (PermissionHelper.haveSavePermission(this)) {
-//                try {
-//                    // Request location updates
-//                    locationManager?.requestLocationUpdates(
-//                        LocationManager.NETWORK_PROVIDER,
-//                        0L,
-//                        0f,
-//                        locationListener
-//                    )
-//
-//                } catch (ex: SecurityException) {
-//                    Log.d("myTag", "Security Exception, no location available")
-//                }
-//            } else {
-//                PermissionHelper.requestSavePermission(this)
-//            }
+            if (PermissionHelper.haveSavePermission(this)) {
+                try {
+                    // Request location updates
+                    locationManager?.requestLocationUpdates(
+                        LocationManager.NETWORK_PROVIDER,
+                        0L,
+                        0f,
+                        locationListener
+                    )
+
+                } catch (ex: SecurityException) {
+                    Log.d("myTag", "Security Exception, no location available")
+                }
+            } else {
+                PermissionHelper.requestSavePermission(this)
+            }
         }
 
         btn_buat_pengaduan.setOnClickListener {
