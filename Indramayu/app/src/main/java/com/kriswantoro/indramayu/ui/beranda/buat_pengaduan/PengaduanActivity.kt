@@ -231,6 +231,7 @@ class PengaduanActivity : AppCompatActivity() {
                 params["status"] = statusPengaduan
                 params["lat"] = latitude.toString()
                 params["lng"] = longitude.toString()
+                params["tgl_pengaduan"] = ""
                 params["status_kirim"] = ""
                 return params
             }

@@ -121,6 +121,7 @@ class BerandaFragment : Fragment() {
                                 objectMenu.getString("status"),
                                 objectMenu.getString("lat"),
                                 objectMenu.getString("lng"),
+                                objectMenu.getString("tgl_pengaduan"),
                                 objectMenu.getString("foto_pengguna"),
                                 objectMenu.getString("nama_pengguna")
                             )
