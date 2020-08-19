@@ -19,6 +19,7 @@ class PengaduanModel (
     var status: String,
     var lat: String,
     var lng: String,
+    var tglPengaduan: String,
     var fotoPengguna: String,
     var namaPengguna: String
 
