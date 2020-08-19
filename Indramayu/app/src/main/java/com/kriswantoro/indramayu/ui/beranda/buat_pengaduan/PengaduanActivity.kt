@@ -1,19 +1,16 @@
 package com.kriswantoro.indramayu.ui.beranda.buat_pengaduan
 
 import android.Manifest
-import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.location.Geocoder
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Looper
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
@@ -24,7 +21,6 @@ import androidx.core.content.ContextCompat
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
-import com.google.android.gms.location.*
 import com.google.gson.Gson
 import com.kriswantoro.indramayu.MainActivity
 import com.kriswantoro.indramayu.R
@@ -36,14 +32,16 @@ import com.kriswantoro.indramayu.verifikasi.LoginActivity
 import kotlinx.android.synthetic.main.activity_pengaduan.*
 import kotlinx.android.synthetic.main.activity_pengaduan.btn_ganti_foto
 import kotlinx.android.synthetic.main.activity_pengaduan.foto_pengaduan
+import kotlinx.android.synthetic.main.item_list_pengaduan.*
+import okhttp3.MultipartBody
 import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
 import java.io.IOException
-import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 class PengaduanActivity : AppCompatActivity() {
 
@@ -54,7 +52,6 @@ class PengaduanActivity : AppCompatActivity() {
     var statusPengaduan: String = "1"
     var lat: Double = 0.0
     var long: Double = 0.0
-    val PERMISSION_ID = 1010
     var idPengguna: String = ""
     val mListKategori = ArrayList<KategoriPengaduanModel>()
 
@@ -63,8 +60,6 @@ class PengaduanActivity : AppCompatActivity() {
 
     lateinit var textLat: TextView
     lateinit var textLng: TextView
-    lateinit var pused:FusedLocationProviderClient
-
     private lateinit var spinner: Spinner
 
     private var pathImage: String? = ""
@@ -82,15 +77,12 @@ class PengaduanActivity : AppCompatActivity() {
         textLng = findViewById(R.id.lng)
 
         locationManager = getSystemService(LOCATION_SERVICE) as LocationManager?
-        pused=LocationServices.getFusedLocationProviderClient(this)
 
-
+//        FileUtil.viewImage(this, foto_pengaduan, noTelp)
 
         getKategoriPengaduan()
 
         btn_tampilMaps.setOnClickListener {
-            RequestPermission()
-            getLastLocation()
             if (PermissionHelper.haveSavePermission(this)) {
                 try {
                     // Request location updates
@@ -231,7 +223,6 @@ class PengaduanActivity : AppCompatActivity() {
                 params["status"] = statusPengaduan
                 params["lat"] = latitude.toString()
                 params["lng"] = longitude.toString()
-                params["tgl_pengaduan"] = ""
                 params["status_kirim"] = ""
                 return params
             }
@@ -352,140 +343,141 @@ class PengaduanActivity : AppCompatActivity() {
             }
         }
     }
-    private fun getLastLocation() {
-        if(CheckPermission()){
-            if(isLocationEnabled()){
-                if (ActivityCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.ACCESS_FINE_LOCATION
-                    ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.ACCESS_COARSE_LOCATION
-                    ) != PackageManager.PERMISSION_GRANTED
-                ) {
-                    // TODO: Consider calling
-                    //    ActivityCompat#requestPermissions
-                    // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for ActivityCompat#requestPermissions for more details.
-                    return
-                }
-                pused.lastLocation.addOnCompleteListener { task->
-                    var location: Location? = task.result
-                    if(location == null){
-                        NewLocationData()
-                    }else{
-                        Log.d("Debug:" ,"Your Location:"+ location.longitude)
-                        ed_lokasi_tempat?.text = getCityName(location.latitude,location.longitude)
-
-
-                    }
-                }
-            }else{
-                Toast.makeText(this,"Please Turn on Your device Location",Toast.LENGTH_SHORT).show()
-            }
-        }else{
-            RequestPermission()
-        }
-    }
-
-
-    private fun CheckPermission(): Boolean {
-        if(
-            ActivityCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
-            ActivityCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-        ){
-            return true
-        }
-
-        return false
-    }
-
-    fun NewLocationData(){
-        var locationRequest =  LocationRequest()
-        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        locationRequest.interval = 0
-        locationRequest.fastestInterval = 0
-        locationRequest.numUpdates = 1
-        pused = LocationServices.getFusedLocationProviderClient(this)
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return
-        }
-        pused!!.requestLocationUpdates(
-            locationRequest,locationCallback, Looper.myLooper()
-        )
-    }
-
-
-    private val locationCallback = object : LocationCallback(){
-        @SuppressLint("SetTextI18n")
-        override fun onLocationResult(locationResult: LocationResult) {
-            var lastLocation: Location = locationResult.lastLocation
-            Log.d("Debug:","your last last location: "+ lastLocation.longitude.toString())
-            ed_lokasi_tempat?.text = getCityName(lastLocation.latitude,lastLocation.longitude)
-
-        }
-    }
-
-    fun RequestPermission(){
-        //this function will allows us to tell the user to requesut the necessary permsiion if they are not garented
-        ActivityCompat.requestPermissions(
-            this,
-            arrayOf(android.Manifest.permission.ACCESS_COARSE_LOCATION,android.Manifest.permission.ACCESS_FINE_LOCATION),
-            PERMISSION_ID
-        )
-    }
-
-    fun isLocationEnabled():Boolean{
-        //this function will return to us the state of the location service
-        //if the gps or the network provider is enabled then it will return true otherwise it will return false
-        var locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
-            LocationManager.NETWORK_PROVIDER)
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        if(requestCode == PERMISSION_ID){
-            if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                Log.d("Debug:","You have the Permission")
-            }
-        }
-    }
-
-    private fun getCityName(lat: Double,long: Double):String{
-        var kecamatan:String = ""
-        var negara = ""
-        var desa = ""
-        var alamat_lengkap = ""
-        var geoCoder = Geocoder(this, Locale.getDefault())
-        var Adress = geoCoder.getFromLocation(lat,long,3)
-
-        kecamatan = Adress.get(0).locality
-        negara = Adress.get(0).countryName
-        desa = Adress.get(0).subLocality
-        alamat_lengkap = Adress.get(0).getAddressLine(0)
-        Log.d("Debug:","Your City: " + kecamatan + " ; your Country " + negara)
-        return alamat_lengkap
-    }
-
 }
+
+//    private fun getLastLocation() {
+//        if(CheckPermission()){
+//            if(isLocationEnabled()){
+//                if (ActivityCompat.checkSelfPermission(
+//                        this,
+//                        Manifest.permission.ACCESS_FINE_LOCATION
+//                    ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+//                        this,
+//                        Manifest.permission.ACCESS_COARSE_LOCATION
+//                    ) != PackageManager.PERMISSION_GRANTED
+//                ) {
+//                    // TODO: Consider calling
+//                    //    ActivityCompat#requestPermissions
+//                    // here to request the missing permissions, and then overriding
+//                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//                    //                                          int[] grantResults)
+//                    // to handle the case where the user grants the permission. See the documentation
+//                    // for ActivityCompat#requestPermissions for more details.
+//                    return
+//                }
+//                pused.lastLocation.addOnCompleteListener { task->
+//                    var location: Location? = task.result
+//                    if(location == null){
+//                        NewLocationData()
+//                    }else{
+//                        Log.d("Debug:" ,"Your Location:"+ location.longitude)
+//                        ed_lokasi_tempat?.text = getCityName(location.latitude,location.longitude)
+//
+//
+//                    }
+//                }
+//            }else{
+//                Toast.makeText(this,"Please Turn on Your device Location",Toast.LENGTH_SHORT).show()
+//            }
+//        }else{
+//            RequestPermission()
+//        }
+//    }
+
+
+//    private fun CheckPermission(): Boolean {
+//        if(
+//            ActivityCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+//            ActivityCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+//        ){
+//            return true
+//        }
+//
+//        return false
+//    }
+
+//    fun NewLocationData(){
+//        var locationRequest =  LocationRequest()
+//        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+//        locationRequest.interval = 0
+//        locationRequest.fastestInterval = 0
+//        locationRequest.numUpdates = 1
+//        pused = LocationServices.getFusedLocationProviderClient(this)
+//        if (ActivityCompat.checkSelfPermission(
+//                this,
+//                Manifest.permission.ACCESS_FINE_LOCATION
+//            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+//                this,
+//                Manifest.permission.ACCESS_COARSE_LOCATION
+//            ) != PackageManager.PERMISSION_GRANTED
+//        ) {
+//            // TODO: Consider calling
+//            //    ActivityCompat#requestPermissions
+//            // here to request the missing permissions, and then overriding
+//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//            //                                          int[] grantResults)
+//            // to handle the case where the user grants the permission. See the documentation
+//            // for ActivityCompat#requestPermissions for more details.
+//            return
+//        }
+//        pused!!.requestLocationUpdates(
+//            locationRequest,locationCallback, Looper.myLooper()
+//        )
+//    }
+
+
+//    private val locationCallback = object : LocationCallback(){
+//        @SuppressLint("SetTextI18n")
+//        override fun onLocationResult(locationResult: LocationResult) {
+//            var lastLocation: Location = locationResult.lastLocation
+//            Log.d("Debug:","your last last location: "+ lastLocation.longitude.toString())
+//            ed_lokasi_tempat?.text = getCityName(lastLocation.latitude,lastLocation.longitude)
+//
+//        }
+//    }
+//
+//    fun RequestPermission(){
+//        //this function will allows us to tell the user to requesut the necessary permsiion if they are not garented
+//        ActivityCompat.requestPermissions(
+//            this,
+//            arrayOf(android.Manifest.permission.ACCESS_COARSE_LOCATION,android.Manifest.permission.ACCESS_FINE_LOCATION),
+//            PERMISSION_ID
+//        )
+//    }
+
+//    fun isLocationEnabled():Boolean{
+//        //this function will return to us the state of the location service
+//        //if the gps or the network provider is enabled then it will return true otherwise it will return false
+//        var locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+//        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
+//            LocationManager.NETWORK_PROVIDER)
+//    }
+
+//    override fun onRequestPermissionsResult(
+//        requestCode: Int,
+//        permissions: Array<out String>,
+//        grantResults: IntArray
+//    ) {
+//        if(requestCode == PERMISSION_ID){
+//            if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+//                Log.d("Debug:","You have the Permission")
+//            }
+//        }
+//    }
+
+//    private fun getCityName(lat: Double,long: Double):String{
+//        var kecamatan:String = ""
+//        var negara = ""
+//        var desa = ""
+//        var alamat_lengkap = ""
+//        var geoCoder = Geocoder(this, Locale.getDefault())
+//        var Adress = geoCoder.getFromLocation(lat,long,3)
+//
+//        kecamatan = Adress.get(0).locality
+//        negara = Adress.get(0).countryName
+//        desa = Adress.get(0).subLocality
+//        alamat_lengkap = Adress.get(0).getAddressLine(0)
+//        Log.d("Debug:","Your City: " + kecamatan + " ; your Country " + negara)
+//        return alamat_lengkap
+//    }
+
