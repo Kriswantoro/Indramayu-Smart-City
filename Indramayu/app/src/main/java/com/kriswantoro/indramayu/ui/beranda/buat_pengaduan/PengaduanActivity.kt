@@ -58,6 +58,8 @@ class PengaduanActivity : AppCompatActivity() {
     var idPengguna: String = ""
     val mListKategori = ArrayList<KategoriPengaduanModel>()
 
+    lateinit var alertDialog: AlertDialog
+
     var listSpinnerIdDinas = ""
     var listDataSpinner = ""
 
@@ -84,9 +86,17 @@ class PengaduanActivity : AppCompatActivity() {
         locationManager = getSystemService(LOCATION_SERVICE) as LocationManager?
         pused=LocationServices.getFusedLocationProviderClient(this)
 
-
-
         getKategoriPengaduan()
+
+        btn_informasi.setOnClickListener {
+            AlertDialog.Builder(this)
+                .setTitle("Alert!")
+                .setMessage("Apakah anda mengerti")
+                .setMessage(R.string.informasi)
+                .setPositiveButton("Ya") { _, _ -> }
+                .setNegativeButton("Tidak") { _, _ -> }
+                .show()
+        }
 
         btn_tampilMaps.setOnClickListener {
             RequestPermission()
@@ -183,6 +193,13 @@ class PengaduanActivity : AppCompatActivity() {
         judulPengaduan = judul_pengaduan.text.toString()
         pesanPengaduan = pesan.text.toString()
         lokasiPengaduan = ed_lokasi_tempat.text.toString()
+        var image: String = pathImage!!
+
+        image = if (pathImage!!.isEmpty()) {
+            Constant.IMAGE_EMPTY
+        } else{
+            ("data:image/jpeg;base64," + pathImage!!)
+        }
 
         val stringRequest = object : StringRequest(
             Method.POST, EndPoint.URL_POST_PENGADUAN,
@@ -226,7 +243,7 @@ class PengaduanActivity : AppCompatActivity() {
                 params["judul_pengaduan"] = judulPengaduan
                 params["kategori"] = listDataSpinner
                 params["pesan"] = pesanPengaduan
-                params["foto_pengaduan"] = ("data:image/jpeg;base64," + pathImage!!)
+                params["foto_pengaduan"] = image
                 params["lokasi"] = lokasiPengaduan
                 params["status"] = statusPengaduan
                 params["lat"] = latitude.toString()

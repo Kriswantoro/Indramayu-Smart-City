@@ -7,7 +7,21 @@
     android:layout_height="match_parent"
     tools:context=".ui.beranda.buat_pengaduan.PengaduanActivity">
 
+    <Button
+        android:id="@+id/btn_informasi"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@drawable/bgbutton2"
+        android:text="Informasi"
+        android:textColor="#ffffff"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="20dp" />
+
     <ScrollView
+        android:layout_below="@+id/btn_informasi"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/sc_pengaduan">

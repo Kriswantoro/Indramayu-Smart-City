@@ -26,12 +26,10 @@
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btn_ganti_foto"
             style="@style/FabStyle"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="85dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="85dp"
             android:layout_marginTop="50dp"
-            android:onClick="pickProfileImage"
-            app:fabSize="mini"
-            tools:ignore="OnClick" />
+            app:fabSize="mini" />
 
 
         <LinearLayout
@@ -42,34 +40,6 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:orientation="vertical">
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                android:text="Nama" />
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:elevation="8dp"
-                app:cardCornerRadius="5dp"
-                app:cardUseCompatPadding="true">
-
-                <EditText
-                    android:id="@+id/et_nama"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:background="@android:color/transparent"
-                    android:inputType="text"
-                    android:paddingLeft="8dp"
-                    android:textColor="#000"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-            </androidx.cardview.widget.CardView>
 
             <TextView
                 android:layout_width="wrap_content"

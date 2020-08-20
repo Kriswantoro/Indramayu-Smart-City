@@ -23,7 +23,8 @@ class SharedPref private constructor(mCtx: Context) {
                 sharedPreferences.getString(KEY_FOTO, null),
                 sharedPreferences.getString(KEY_NAMA, null),
                 sharedPreferences.getString(KEY_EMAIL, null),
-                sharedPreferences.getString(KEY_NO_TELP, null)
+                sharedPreferences.getString(KEY_NO_TELP, null),
+                sharedPreferences.getString(KEY_STATUS, null)
             )
         }
 
@@ -39,6 +40,7 @@ class SharedPref private constructor(mCtx: Context) {
         editor?.putString(KEY_NAMA, user.namaPengguna)
         editor?.putString(KEY_EMAIL, user.email)
         editor?.putString(KEY_NO_TELP, user.noTlpn)
+        editor?.putString(KEY_STATUS, user.status)
         editor?.apply()
     }
 
@@ -50,9 +52,9 @@ class SharedPref private constructor(mCtx: Context) {
         editor?.remove(KEY_NAMA)
         editor?.remove(KEY_EMAIL)
         editor?.remove(KEY_NO_TELP)
+        editor?.remove(KEY_STATUS)
         editor?.clear()
         editor?.apply()
-        ctx?.startActivity(Intent(ctx, MainActivity::class.java))
     }
 
     companion object {
@@ -62,6 +64,7 @@ class SharedPref private constructor(mCtx: Context) {
         private val KEY_NAMA = "keynamaPengguna"
         private val KEY_EMAIL = "keyemail"
         private val KEY_NO_TELP = "keynoTlpn"
+        private val KEY_STATUS = "keystatus"
 
 
         private var mInstance: SharedPref? = null

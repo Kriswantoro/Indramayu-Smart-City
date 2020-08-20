@@ -70,11 +70,6 @@ class LoginActivity : AppCompatActivity() {
                     val obj = JSONObject(response)
 
                     if (!obj.getBoolean("error")) {
-                        Toast.makeText(
-                            applicationContext,
-                            "Welcome to Indramayu Smart City",
-                            Toast.LENGTH_SHORT
-                        ).show()
 
                         val array = obj.getJSONArray("data")
                         for (i in 0 until array.length()) {
@@ -85,15 +80,29 @@ class LoginActivity : AppCompatActivity() {
                                 userJson.getString("foto_pengguna"),
                                 userJson.getString("nama_pengguna"),
                                 userJson.getString("email"),
-                                userJson.getString("no_tlpn")
+                                userJson.getString("no_tlpn"),
+                                userJson.getString("status_pengguna")
                             )
 
-                            SharedPref.getInstance(applicationContext).userLogin(user)
-
-                            finish()
-                            val intent = Intent (this, OTPActivity::class.java)
-                            intent.putExtra("phoneNumber",phoneNumber)
-                            startActivity(intent)
+                            if (userJson.getString("status_pengguna") == "0") {
+                                SharedPref.getInstance(this).userLogout()
+                                AlertDialog.Builder(this)
+                                    .setTitle("MAMPUS")
+                                    .setMessage("Akun anda telah terblokir\n\ncoba lagi")
+                                    .setPositiveButton("Ok") { _, _ -> }
+                                    .show()
+                            } else {
+                                SharedPref.getInstance(applicationContext).userLogin(user)
+                                finish()
+                                val intent = Intent(this, OTPActivity::class.java)
+                                intent.putExtra("phoneNumber", phoneNumber)
+                                startActivity(intent)
+                                Toast.makeText(
+                                    applicationContext,
+                                    "Welcome to Indramayu Smart City",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         }
                     } else {
 

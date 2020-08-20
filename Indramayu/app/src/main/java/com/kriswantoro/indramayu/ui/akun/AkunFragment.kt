@@ -87,6 +87,7 @@ class AkunFragment : Fragment() {
                 .setMessage("Apakah anda yakin ingin logout ?")
                 .setPositiveButton("Ya") { _, _ ->
                     SharedPref.getInstance(requireContext()).userLogout()
+                    activity?.finish()
                     startActivity(Intent(context, LoginActivity::class.java))
                     onDestroy()
                 }
@@ -94,8 +95,8 @@ class AkunFragment : Fragment() {
                 .show()
         }
         root.edit_profil.setOnClickListener {
-            Toast.makeText(requireContext(), "Soon!!!", Toast.LENGTH_SHORT).show()
-//            startActivity(Intent(context, EditAkunAktivity::class.java))
+//            Toast.makeText(requireContext(), "Soon!!!", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(context, EditAkunAktivity::class.java))
         }
         root.btn_isc.setOnClickListener {
             val intent = Intent(context, TentangISCActivity::class.java)
