@@ -37,10 +37,14 @@ class PengaduanAdapter(val list: ArrayList<PengaduanModel>, val listener: (Penga
             }
             "2" -> {
                 holder.itemView.id_diproses.text = "Sedang Proses"
+                holder.itemView.id_diproses.setTextColor(Color.YELLOW)
+            }
+            "3" -> {
+                holder.itemView.id_diproses.text = "Selesai"
                 holder.itemView.id_diproses.setTextColor(Color.GREEN)
             }
             else -> {
-                holder.itemView.id_diproses.text = "Selesai"
+                holder.itemView.id_diproses.text = "Tolak"
                 holder.itemView.id_diproses.setTextColor(Color.RED)
             }
         }

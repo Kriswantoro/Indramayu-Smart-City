@@ -17,6 +17,8 @@
     <string name="slide_3_title">Panggilan Darurat</string>
     <string name="slide_3_desc">Nikmati layanan panggilan darurat hanya di aplikasi ini</string>
 
+    <string name="informasi">1. Tulis judul yang Anda buat. \n2. Pilih kategori pengaduan akan diarahkan pada dinas yang terkait \n3. Masukan pesan \n4. Upload foto pengaduan Anda \n5. Pilih lokasi saat ini \n6. Kemudian buat pengaduan </string>
+
 
     <string name="app_name">Indramayu Smart City</string>
     <string name="title_beranda">Beranda</string>

@@ -38,4 +38,7 @@ object EndPoint {
 
     //riwayat
     val URL_RIWAYAT = URL_ROOT + "getriwayat"
+
+    //updateuser
+    val URL_UPDATE_USER = URL_ROOT + "updateuser"
 }

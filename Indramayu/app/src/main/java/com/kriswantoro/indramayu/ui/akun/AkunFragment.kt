@@ -37,6 +37,7 @@ class AkunFragment : Fragment() {
     lateinit var belum: TextView
     lateinit var sedang: TextView
     lateinit var selesai: TextView
+    lateinit var tolak: TextView
 
     var idPengguna: String = ""
 
@@ -50,6 +51,7 @@ class AkunFragment : Fragment() {
         belum = root.findViewById(R.id.riwayat_belum)
         sedang = root.findViewById(R.id.riwayat_sedang)
         selesai = root.findViewById(R.id.riwayat_selesai)
+        tolak = root.findViewById(R.id.riwayat_tolak)
 
         if (SharedPref.getInstance(requireContext()).isLoggedIn) {
 
@@ -80,6 +82,7 @@ class AkunFragment : Fragment() {
         getRiwayatBelum("1", idPengguna)
         getRiwayatSedang("2", idPengguna)
         getRiwayatSelesai("3", idPengguna)
+        getRiwayatTolak("4", idPengguna)
 
         root.btn_keluar.setOnClickListener {
             AlertDialog.Builder(requireContext())
@@ -87,6 +90,7 @@ class AkunFragment : Fragment() {
                 .setMessage("Apakah anda yakin ingin logout ?")
                 .setPositiveButton("Ya") { _, _ ->
                     SharedPref.getInstance(requireContext()).userLogout()
+                    activity?.finish()
                     startActivity(Intent(context, LoginActivity::class.java))
                     onDestroy()
                 }
@@ -94,14 +98,17 @@ class AkunFragment : Fragment() {
                 .show()
         }
         root.edit_profil.setOnClickListener {
-            Toast.makeText(requireContext(), "Soon!!!", Toast.LENGTH_SHORT).show()
-//            startActivity(Intent(context, EditAkunAktivity::class.java))
+//            Toast.makeText(requireContext(), "Soon!!!", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(context, EditAkunAktivity::class.java))
         }
         root.btn_isc.setOnClickListener {
             val intent = Intent(context, TentangISCActivity::class.java)
             startActivity(intent)
         }
-
+        root.cv_b_diproses.setOnClickListener {
+            val intent = Intent(context, RiwayatPengaduan::class.java)
+            startActivity(intent)
+        }
         return root
     }
 
@@ -210,6 +217,45 @@ class AkunFragment : Fragment() {
                     e.printStackTrace()
                 }
             },
+            Response.ErrorListener { error ->
+                Toast.makeText(requireContext(), error.message, Toast.LENGTH_SHORT).show()
+            }) {
+            @Throws(AuthFailureError::class)
+            override fun getParams(): MutableMap<String, String> {
+                val params = HashMap<String, String>()
+                params["status"] = status
+                params["id_pengguna"] = idPengguna
+
+                return params
+            }
+        }
+        VolleySingleton.getInstance(requireContext()).addToRequestQueue(stringRequest)
+    }
+            fun getRiwayatTolak(status: String, idPengguna: String) {
+                val stringRequest = object : StringRequest(
+                    Method.POST, EndPoint.URL_RIWAYAT,
+                    Response.Listener<String> { response ->
+
+                        try {
+                            val obj = JSONObject(response)
+
+                            if (!obj.getBoolean("error")) {
+
+                                val array = obj.getJSONArray("response")
+                                for (i in 0 until array.length()) {
+                                    val riwayatJson = array.getJSONObject(i)
+
+                                    val riwayat = RiwayatModel(riwayatJson.getString("count"))
+
+                                    tolak.text = riwayat.count
+                                }
+                            } else {
+                                Toast.makeText(requireContext(), "GAGAL", Toast.LENGTH_SHORT).show()
+                            }
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
+                        }
+                    },
             Response.ErrorListener { error ->
                 Toast.makeText(requireContext(), error.message, Toast.LENGTH_SHORT).show()
             }) {

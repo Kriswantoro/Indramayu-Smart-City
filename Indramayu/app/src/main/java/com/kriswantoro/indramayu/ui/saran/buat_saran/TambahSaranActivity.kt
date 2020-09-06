@@ -112,6 +112,10 @@ class TambahSaranActivity : AppCompatActivity() {
                 params["judul_saran"] = judulSaran
                 params["deskripsi"] = desc
                 params["tgl_saran"] = ""
+                params["name"] = ""
+                params["judul"] = ""
+                params["deskripsi"] = ""
+                params["is_read"] = ""
                 return params
             }
         }
