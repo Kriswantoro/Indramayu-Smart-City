@@ -44,15 +44,6 @@ class LoginActivity : AppCompatActivity() {
             login()
         }
 
-//        val edtNoTelp: EditText = findViewById(R.id.edtNoTelp)
-//        edtNoTelp.setOnEditorActionListener { textView, i, keyEvent ->
-//            if (i==EditorInfo.IME_ACTION_SEARCH){
-//                login()
-//            }else{
-//                Toast.makeText(this, "Data ora weruh", Toast.LENGTH_LONG).show()
-//            }
-//            true
-//        }
     }
 
     override fun onBackPressed() {
@@ -62,12 +53,14 @@ class LoginActivity : AppCompatActivity() {
 
     fun login() {
         val noTelp = edtNoTelp.text.toString()
+        val code = "+62"
 
         if (TextUtils.isEmpty(noTelp)) {
             edtNoTelp.error = "Please enter No Tlpn"
             edtNoTelp.requestFocus()
             return
         }
+        val phoneNumber = code + noTelp
 
         val stringRequest = object : StringRequest(
             Method.POST, EndPoint.URL_LOGIN,
@@ -77,11 +70,6 @@ class LoginActivity : AppCompatActivity() {
                     val obj = JSONObject(response)
 
                     if (!obj.getBoolean("error")) {
-                        Toast.makeText(
-                            applicationContext,
-                            "Welcome to Indramayu Smart City",
-                            Toast.LENGTH_SHORT
-                        ).show()
 
                         val array = obj.getJSONArray("data")
                         for (i in 0 until array.length()) {
@@ -92,17 +80,32 @@ class LoginActivity : AppCompatActivity() {
                                 userJson.getString("foto_pengguna"),
                                 userJson.getString("nama_pengguna"),
                                 userJson.getString("email"),
-                                userJson.getString("no_tlpn")
+                                userJson.getString("no_tlpn"),
+                                userJson.getString("status_pengguna")
                             )
 
-                            SharedPref.getInstance(applicationContext).userLogin(user)
-                            finish()
-                            startActivity(Intent(applicationContext, MainActivity::class.java))
-//                            Toast.makeText(this, "Welcome to ISC", Toast.LENGTH_LONG).show()
+                            if (userJson.getString("status_pengguna") == "0") {
+                                SharedPref.getInstance(this).userLogout()
+                                AlertDialog.Builder(this)
+                                    .setTitle("MAMPUS")
+                                    .setMessage("Akun anda telah terblokir\n\ncoba lagi")
+                                    .setPositiveButton("Ok") { _, _ -> }
+                                    .show()
+                            } else {
+                                SharedPref.getInstance(applicationContext).userLogin(user)
+                                finish()
+                                val intent = Intent(this, OTPActivity::class.java)
+                                intent.putExtra("phoneNumber", phoneNumber)
+                                startActivity(intent)
+                                Toast.makeText(
+                                    applicationContext,
+                                    "Welcome to Indramayu Smart City",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         }
                     } else {
 
-                        //Toast.makeText(applicationContext, "Kode Pendonor tidak ditemukan, harap masukkan dengan benar", Toast.LENGTH_SHORT).show()
                         AlertDialog.Builder(this)
                             .setTitle("Peringatan !")
                             .setMessage("Maaf, Nomer Telepon tidak ditemukan, harap masukkan dengan benar")

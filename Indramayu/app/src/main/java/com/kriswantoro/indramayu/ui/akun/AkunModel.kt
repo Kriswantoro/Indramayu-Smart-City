@@ -5,5 +5,6 @@ data class AkunModel(
     val fotoPengguna: String?,
     val namaPengguna: String?,
     val email: String?,
-    val noTlpn: String?
+    val noTlpn: String?,
+    val status: String?
 )

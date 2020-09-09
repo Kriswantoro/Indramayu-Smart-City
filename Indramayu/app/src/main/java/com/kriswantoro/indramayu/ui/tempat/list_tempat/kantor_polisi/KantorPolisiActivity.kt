@@ -63,9 +63,7 @@ class KantorPolisiActivity : AppCompatActivity() {
                                     polisiJson.getString("nama_tempat"),
                                     polisiJson.getString("foto_tempat"),
                                     polisiJson.getDouble("lat"),
-                                    polisiJson.getDouble("lng"),
-                                    polisiJson.getString("kategori_tempat.id_kategori_tempat"),
-                                    polisiJson.getString("kategori_tempat.nama_kategori")
+                                    polisiJson.getDouble("lng")
                                 )
 
                             mDataList.add(polisi)

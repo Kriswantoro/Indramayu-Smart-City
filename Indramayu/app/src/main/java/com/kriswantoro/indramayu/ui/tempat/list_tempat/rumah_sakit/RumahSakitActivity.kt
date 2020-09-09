@@ -63,9 +63,7 @@ class RumahSakitActivity : AppCompatActivity() {
                                     rumahsakitJson.getString("nama_tempat"),
                                     rumahsakitJson.getString("foto_tempat"),
                                     rumahsakitJson.getDouble("lat"),
-                                    rumahsakitJson.getDouble("lng"),
-                                    rumahsakitJson.getString("kategori_tempat.id_kategori_tempat"),
-                                    rumahsakitJson.getString("kategori_tempat.nama_kategori")
+                                    rumahsakitJson.getDouble("lng")
                                 )
 
                             mDataList.add(rumahSakit)
