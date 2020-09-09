@@ -61,9 +61,7 @@ class IbadahActivity : AppCompatActivity() {
                                     ibadahJson.getString("nama_tempat"),
                                     ibadahJson.getString("foto_tempat"),
                                     ibadahJson.getDouble("lat"),
-                                    ibadahJson.getDouble("lng"),
-                                    ibadahJson.getString("kategori_tempat.id_kategori_tempat"),
-                                    ibadahJson.getString("kategori_tempat.nama_kategori")
+                                    ibadahJson.getDouble("lng")
                                 )
 
                             mDataList.add(ibadah)

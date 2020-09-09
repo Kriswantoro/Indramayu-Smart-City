@@ -72,11 +72,11 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_b_diproses"
-            android:layout_width="100dp"
+            android:layout_width="150dp"
             android:layout_height="82dp"
             android:layout_marginTop="10dp"
             android:layout_below="@id/nomor_pengguna"
-            android:layout_toStartOf="@+id/cv_s_diproses"
+            android:layout_marginLeft="10dp"
             android:background="@color/blue"
             android:elevation="8dp"
             app:cardCornerRadius="5dp"
@@ -97,18 +97,19 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:text="60"
+                android:text="-"
                 android:textColor="@color/colorPrimaryDark" />
 
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_s_diproses"
-            android:layout_width="100dp"
+            android:layout_width="150dp"
             android:layout_height="82dp"
-            android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:layout_below="@id/nomor_pengguna"
+            android:layout_toRightOf="@id/cv_b_diproses"
+            android:layout_marginLeft="10dp"
             android:elevation="8dp"
             app:cardCornerRadius="5dp"
             app:cardUseCompatPadding="true">
@@ -128,18 +129,18 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:text="12"
+                android:text="-"
                 android:textColor="@color/colorPrimaryDark" />
 
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_selesai"
-            android:layout_width="100dp"
+            android:layout_width="150dp"
             android:layout_height="82dp"
             android:layout_marginTop="10dp"
-            android:layout_below="@id/nomor_pengguna"
-            android:layout_toEndOf="@+id/cv_s_diproses"
+            android:layout_below="@id/cv_b_diproses"
+            android:layout_marginLeft="10dp"
             android:elevation="8dp"
             app:cardCornerRadius="5dp"
             app:cardUseCompatPadding="true">
@@ -159,22 +160,41 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:text="12"
+                android:text="-"
                 android:textColor="@color/colorPrimaryDark" />
 
         </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_tolak"
+            android:layout_width="150dp"
+            android:layout_height="82dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/cv_s_diproses"
+           android:layout_toRightOf="@id/cv_selesai"
+            android:layout_marginLeft="10dp"
+            android:elevation="8dp"
+            app:cardCornerRadius="5dp"
+            app:cardUseCompatPadding="true">
 
-        <!--        <TextView-->
-        <!--            android:id="@+id/tentang_apk"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_below="@+id/nomor_pengguna"-->
-        <!--            android:layout_margin="30dp"-->
-        <!--            android:drawableLeft="@drawable/ic_phone_iphone_black_24dp"-->
-        <!--            android:drawablePadding="8dp"-->
-        <!--            android:text="Tentang Aplikasi"-->
-        <!--            android:textColor="#000"-->
-        <!--            android:textStyle="bold" />-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="20dp"
+                android:padding="8dp"
+                android:text="Ditolak"
+                android:textSize="10dp" />
+
+            <TextView
+                android:id="@+id/riwayat_tolak"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="-"
+                android:textColor="@color/colorPrimaryDark" />
+
+        </androidx.cardview.widget.CardView>
     </RelativeLayout>
 
 

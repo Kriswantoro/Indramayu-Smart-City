@@ -62,9 +62,7 @@ class WisataActivity : AppCompatActivity() {
                                     wisataJson.getString("nama_tempat"),
                                     wisataJson.getString("foto_tempat"),
                                     wisataJson.getDouble("lat"),
-                                    wisataJson.getDouble("lng"),
-                                    wisataJson.getString("kategori_tempat.id_kategori_tempat"),
-                                    wisataJson.getString("kategori_tempat.nama_kategori")
+                                    wisataJson.getDouble("lng")
                                 )
 
                             mDataList.add(wisata)

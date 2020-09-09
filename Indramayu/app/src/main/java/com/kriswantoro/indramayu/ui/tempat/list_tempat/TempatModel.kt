@@ -6,13 +6,11 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 class TempatModel(
     //baka sing api mah ganti string kris
-    val idTempat: String,
-    val idKategoriTempat: String,
+    val id_tempat: String,
+    val id_kategori_tempat: String,
     val namaTempat: String,
     val fotoTempat: String,
     val lat: Double,
-    val lng: Double,
-    val idKategoriTempat2: String,
-    val namaTempat2: String
+    val lng: Double
 
 ) : Parcelable

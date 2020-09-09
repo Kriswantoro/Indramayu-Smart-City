@@ -24,7 +24,7 @@
                 android:layout_width="116dp"
                 android:layout_height="85dp"
                 android:src="@drawable/ic_camera_icon"
-                android:id="@+id/foto_tempat"/>
+                android:id="@+id/iv_r_foto_pengaduan"/>
 
             <TextView
                 android:id="@+id/nama_tempat"
@@ -33,26 +33,32 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_toEndOf="@id/foto_tempat"
+                android:layout_toEndOf="@id/iv_r_foto_pengaduan"
                 android:text="Contoh"
                 android:textColor="#000"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
+            <TextView
+                android:id="@+id/cv_tanggal_saran"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="17-0-2020" />
+
             <LinearLayout
-                android:layout_toEndOf="@id/foto_tempat"
+                android:layout_toEndOf="@id/iv_r_foto_pengaduan"
                 android:layout_below="@id/nama_tempat"
                 android:layout_marginStart="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="0.00 km"-->
-<!--                    android:drawableStart="@drawable/ic_location_kecil"-->
-<!--                    android:id="@+id/jarak_tempat"/>-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pesan"
+                    android:id="@+id/tv_r_pesan"/>
 
             </LinearLayout>
 

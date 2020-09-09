@@ -250,6 +250,10 @@ class PengaduanActivity : AppCompatActivity() {
                 params["lng"] = longitude.toString()
                 params["tgl_pengaduan"] = ""
                 params["status_kirim"] = ""
+                params["name"] = ""
+                params["judul"] = ""
+                params["deskripsi"] = ""
+                params["is_read"] = ""
                 return params
             }
         }
