@@ -105,10 +105,6 @@ class AkunFragment : Fragment() {
             val intent = Intent(context, TentangISCActivity::class.java)
             startActivity(intent)
         }
-        root.cv_b_diproses.setOnClickListener {
-            val intent = Intent(context, RiwayatPengaduan::class.java)
-            startActivity(intent)
-        }
         return root
     }
 
@@ -129,6 +125,13 @@ class AkunFragment : Fragment() {
                             val riwayat = RiwayatModel(riwayatJson.getString("count"))
 
                             belum.text = riwayat.count
+
+                            cv_b_diproses.setOnClickListener {
+                                val intent = Intent(context, RiwayatPengaduan::class.java)
+                                intent.putExtra("status", status)
+                                startActivity(intent)
+                            }
+
                         }
                     } else {
                         Toast.makeText(requireContext(), "GAGAL", Toast.LENGTH_SHORT).show()

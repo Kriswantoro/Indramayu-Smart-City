@@ -41,4 +41,7 @@ object EndPoint {
 
     //updateuser
     val URL_UPDATE_USER = URL_ROOT + "updateuser"
+
+    //riwayat
+    val URL_RIWAYAT_PENGADUAN = URL_ROOT + "getriwayatpengaduan"
 }
