@@ -40,6 +40,9 @@ class LoginActivity : AppCompatActivity() {
         buttonSignUp.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
         }
+        bth.setOnClickListener {
+            startActivity(Intent(this, HelpActivity::class.java))
+        }
         btn_lanjutkan.setOnClickListener {
             login()
         }

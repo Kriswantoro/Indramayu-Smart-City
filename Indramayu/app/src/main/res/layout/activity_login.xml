@@ -89,7 +89,6 @@
             android:hint="Nomor Telepon Kamu"
             android:layout_gravity="center_vertical"
             android:textSize="16sp"
-            android:textStyle="bold"
             android:inputType="number"
             android:imeOptions="actionSearch"
             android:ems="10"
@@ -97,8 +96,20 @@
 
     </androidx.cardview.widget.CardView>
 
+
 </LinearLayout>
 
+    <TextView
+        android:id="@+id/bth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="230dp"
+        android:layout_marginRight="30dp"
+        android:textColor="@color/blue"
+        android:text="Butuh Bantuan?"
+        android:textStyle="bold"/>
 <Button
     android:id="@+id/btn_lanjutkan"
     android:layout_width="match_parent"

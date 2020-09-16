@@ -22,9 +22,11 @@ import com.kriswantoro.indramayu.util.EndPoint
 import com.kriswantoro.indramayu.util.FileUtil
 import com.kriswantoro.indramayu.util.VolleySingleton
 import com.kriswantoro.indramayu.util.retrofit.model.CheckNikModel
+import kotlinx.android.synthetic.main.activity_daftar_n_i_k.*
 import kotlinx.android.synthetic.main.activity_pengaduan.*
 import kotlinx.android.synthetic.main.activity_register.*
 import kotlinx.android.synthetic.main.activity_register.btn_ganti_foto
+import kotlinx.android.synthetic.main.activity_register.buttonMasuk
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.File
@@ -59,6 +61,9 @@ class RegisterActivity : AppCompatActivity() {
         buttonMasuk.setOnClickListener {
             startActivity(Intent(this, LoginActivity::class.java))
         }
+//        daftarnik.setOnClickListener{
+//            startActivity(Intent(this, DaftarNIKActivity::class.java))
+//        }
 
         btn_ganti_foto.setOnClickListener { showPicture() }
 
@@ -88,14 +93,12 @@ class RegisterActivity : AppCompatActivity() {
                             nama_lengkap.text = namaUser
                             btn_daftar.isEnabled = true
 
-//                            Toast.makeText(this, "Welcome to ISC", Toast.LENGTH_LONG).show()
                         }
                     } else {
 
-                        //Toast.makeText(applicationContext, "Kode Pendonor tidak ditemukan, harap masukkan dengan benar", Toast.LENGTH_SHORT).show()
                         AlertDialog.Builder(this)
                             .setTitle("Peringatan !")
-                            .setMessage("Maaf, NIK tidak ditemukan, harap masukkan dengan benar")
+                            .setMessage("Maaf, NIK tidak ditemukan, harap masukkan dengan benar atau Daftarkan NIK Anda")
                             .setPositiveButton("Ok", { dialog, which -> })
                             .setCancelable(true)
                             .show()

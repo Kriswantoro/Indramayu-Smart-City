@@ -18,7 +18,9 @@ import retrofit2.Response
 class PanggilanDaruratActivity : AppCompatActivity() {
 
     var polisi: String = ""
-    var rumahSakit: String = ""
+    var rsud_indramayu: String = ""
+    var rsud_sentot: String = ""
+    var rsud_mis: String = ""
     var pemadam: String = ""
 
     val mListNomor: ArrayList<NomorPanggilanModel> = ArrayList()
@@ -34,12 +36,21 @@ class PanggilanDaruratActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        btn_rumah_sakit.setOnClickListener {
+        btn_rsud_indramayu.setOnClickListener {
             //Dialer intent
-            val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + Uri.encode(rumahSakit)))
+            val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + Uri.encode(rsud_indramayu)))
             startActivity(intent)
         }
-
+        btn_rsud_sentot.setOnClickListener {
+            //Dialer intent
+            val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + Uri.encode(rsud_sentot)))
+            startActivity(intent)
+        }
+        btn_rsud_MIS.setOnClickListener {
+            //Dialer intent
+            val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + Uri.encode(rsud_mis)))
+            startActivity(intent)
+        }
         btn_p_kebakaran.setOnClickListener {
             //Dialer intent
             val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + Uri.encode(pemadam)))
@@ -74,7 +85,13 @@ class PanggilanDaruratActivity : AppCompatActivity() {
                                     polisi = mListNomor[i].nomorPanggilan
                                 }
                                 2 -> {
-                                    rumahSakit = mListNomor[i].nomorPanggilan
+                                    rsud_indramayu = mListNomor[i].nomorPanggilan
+                                }
+                                4 -> {
+                                    rsud_sentot = mListNomor[i].nomorPanggilan
+                                }
+                                5 -> {
+                                    rsud_mis = mListNomor[i].nomorPanggilan
                                 }
                                 else -> pemadam = mListNomor[i].nomorPanggilan
                             }

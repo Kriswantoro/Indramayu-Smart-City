@@ -22,6 +22,7 @@ import com.github.dhaval2404.imagepicker.sample.setDrawableImage
 import com.kriswantoro.indramayu.ui.beranda.buat_pengaduan.PengaduanActivity
 import com.kriswantoro.indramayu.R
 import com.kriswantoro.indramayu.intro.SharedPref
+import com.kriswantoro.indramayu.ui.akun.TentangISCActivity
 import com.kriswantoro.indramayu.ui.beranda.buat_pengaduan.PengaduanAdapter
 import com.kriswantoro.indramayu.ui.beranda.buat_pengaduan.PengaduanModel
 import com.kriswantoro.indramayu.ui.beranda.panggilan_darurat.PanggilanDaruratActivity
@@ -57,6 +58,10 @@ class BerandaFragment : Fragment() {
                 startActivity(Intent(context, LoginActivity::class.java))
             }
 
+        }
+        root.tentang.setOnClickListener {
+            val intent = Intent(context, TentangISCActivity::class.java)
+            startActivity(intent)
         }
         root.btn_darurat.setOnClickListener {
             if (SharedPref.getInstance(requireContext()).isLoggedIn) {

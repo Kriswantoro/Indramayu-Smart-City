@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="100dp"
         android:elevation="8dp"
         app:cardCornerRadius="5dp"
         app:cardUseCompatPadding="true">
@@ -25,7 +25,7 @@
             <ImageView
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="5dp"
                 android:src="@drawable/p"
                 android:id="@+id/foto_polisi"/>
 
@@ -33,7 +33,7 @@
                 android:id="@+id/p_polisi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Kantor Polisi"
+                android:text="KANTOR POLISI"
                 android:layout_toRightOf="@id/foto_polisi"
                 android:textSize="25dp"
                 android:layout_centerInParent="true"
@@ -59,7 +59,7 @@
 
     </androidx.cardview.widget.CardView>
     <androidx.cardview.widget.CardView
-        android:id="@+id/btn_rumah_sakit"
+        android:id="@+id/btn_rsud_indramayu"
         android:layout_below="@+id/btn_ktr_polisi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -72,38 +72,146 @@
         app:cardUseCompatPadding="true">
 
         <RelativeLayout
-            android:layout_width="match_parent"
+            android:layout_width="316dp"
             android:layout_height="wrap_content"
             android:background="@drawable/bgbutton3">
 
             <ImageView
+                android:id="@+id/foto_rs"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_marginLeft="10dp"
-                android:src="@drawable/rs"
-                android:id="@+id/foto_rs"/>
+                android:layout_marginLeft="5dp"
+                android:src="@drawable/rs" />
 
             <TextView
                 android:id="@+id/p_r_sakit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Rumah Sakit"
-                android:layout_toRightOf="@id/foto_rs"
-                android:textSize="25dp"
-                android:textColor="#FFFFFF"
-                android:textStyle="bold"
                 android:layout_centerInParent="true"
-                android:gravity="center"
+                android:paddingRight="20dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"/>
+                android:layout_toRightOf="@id/foto_rs"
+                android:gravity="center"
+                android:text="RSUD INDRAMAYU"
+                android:textColor="#FFFFFF"
+                android:textSize="25dp"
+                android:textStyle="bold" />
 
             <LinearLayout
-                android:layout_toRightOf="@id/foto_rs"
-                android:layout_below="@id/p_r_sakit"
-                android:layout_marginLeft="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/p_r_sakit"
+                android:layout_marginLeft="8dp"
+                android:layout_toRightOf="@id/foto_rs"
+                android:orientation="horizontal">
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+    </androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btn_rsud_sentot"
+        android:layout_below="@+id/btn_rsud_indramayu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_centerInParent="true"
+        android:elevation="8dp"
+        app:cardCornerRadius="5dp"
+        app:cardUseCompatPadding="true">
+
+        <RelativeLayout
+            android:layout_width="316dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bgbutton3">
+
+            <ImageView
+                android:id="@+id/foto_rs2"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="5dp"
+                android:src="@drawable/rs" />
+
+            <TextView
+                android:id="@+id/p_r_sakit2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="8dp"
+                android:paddingRight="20dp"
+                android:layout_toRightOf="@id/foto_rs2"
+                android:gravity="center"
+                android:text="RSUD M.A SENTOT"
+                android:textColor="#FFFFFF"
+                android:textSize="25dp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/p_r_sakit2"
+                android:layout_marginLeft="8dp"
+                android:layout_toRightOf="@id/foto_rs2"
+                android:orientation="horizontal">
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+    </androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btn_rsud_MIS"
+        android:layout_below="@+id/btn_rsud_sentot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_centerInParent="true"
+        android:elevation="8dp"
+        app:cardCornerRadius="5dp"
+        app:cardUseCompatPadding="true">
+
+        <RelativeLayout
+            android:layout_width="316dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bgbutton3">
+
+            <ImageView
+                android:id="@+id/foto_rs3"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="5dp"
+                android:src="@drawable/rs" />
+
+            <TextView
+                android:id="@+id/p_r_sakit3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_toRightOf="@id/foto_rs3"
+                android:gravity="center"
+                android:text="RSUD MIS"
+                android:textColor="#FFFFFF"
+                android:textSize="25dp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/p_r_sakit3"
+                android:layout_marginLeft="8dp"
+                android:layout_toRightOf="@id/foto_rs3"
                 android:orientation="horizontal">
 
             </LinearLayout>
@@ -115,7 +223,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/btn_p_kebakaran"
-        android:layout_below="@+id/btn_rumah_sakit"
+        android:layout_below="@+id/btn_rsud_MIS"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
@@ -134,7 +242,7 @@
             <ImageView
                 android:layout_width="80dp"
                 android:layout_height="70dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="5dp"
                 android:src="@drawable/pk"
                 android:id="@+id/foto_p_kebakaran"/>
 
@@ -142,7 +250,7 @@
                 android:id="@+id/p_p_kebakaran"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Pemadam Kebakaran"
+                android:text="PEMADAM KEBAKARAN"
                 android:layout_toRightOf="@id/foto_p_kebakaran"
                 android:textSize="25dp"
                 android:textColor="#FFFFFF"

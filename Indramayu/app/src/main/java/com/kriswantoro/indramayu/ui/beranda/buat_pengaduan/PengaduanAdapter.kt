@@ -1,6 +1,7 @@
 package com.kriswantoro.indramayu.ui.beranda.buat_pengaduan
 
 import android.graphics.*
+import android.os.Build
 import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.kriswantoro.indramayu.R
+import com.kriswantoro.indramayu.ui.tempat.list_tempat.TempatModel
 import com.kriswantoro.indramayu.util.FileUtil
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_list_pengaduan.view.*

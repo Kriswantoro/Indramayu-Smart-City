@@ -2,23 +2,29 @@ package com.kriswantoro.indramayu.ui.akun
 
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Base64
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
-
+import com.github.mikephil.charting.charts.BarChart
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.components.YAxis
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.kriswantoro.indramayu.R
 import com.kriswantoro.indramayu.intro.SharedPref
 import com.kriswantoro.indramayu.ui.akun.edit_akun.EditAkunAktivity
-import com.kriswantoro.indramayu.ui.tempat.list_tempat.ibadah.IbadahActivity
 import com.kriswantoro.indramayu.util.EndPoint
 import com.kriswantoro.indramayu.util.VolleySingleton
 import com.kriswantoro.indramayu.verifikasi.LoginActivity
@@ -29,6 +35,10 @@ import org.json.JSONException
 import org.json.JSONObject
 
 class AkunFragment : Fragment() {
+
+    private var barChart: BarChart? = null
+//    private val seekBarX: SeekBar? = null, private  var seekBarY:SeekBar? = null
+//    private val tvX: TextView? = null, private  var tvY:TextView? = null
 
     private lateinit var namaPengguna: TextView
     private lateinit var nomorPengguna: TextView
@@ -52,6 +62,7 @@ class AkunFragment : Fragment() {
         sedang = root.findViewById(R.id.riwayat_sedang)
         selesai = root.findViewById(R.id.riwayat_selesai)
         tolak = root.findViewById(R.id.riwayat_tolak)
+        barChart = root.findViewById(R.id.barchart)
 
         if (SharedPref.getInstance(requireContext()).isLoggedIn) {
 
@@ -98,19 +109,90 @@ class AkunFragment : Fragment() {
                 .show()
         }
         root.edit_profil.setOnClickListener {
-//            Toast.makeText(requireContext(), "Soon!!!", Toast.LENGTH_SHORT).show()
             startActivity(Intent(context, EditAkunAktivity::class.java))
         }
-        root.btn_isc.setOnClickListener {
-            val intent = Intent(context, TentangISCActivity::class.java)
-            startActivity(intent)
-        }
-        root.cv_b_diproses.setOnClickListener {
-            val intent = Intent(context, RiwayatPengaduan::class.java)
-            startActivity(intent)
-        }
+
+        val barEntries1 = ArrayList<BarEntry>()
+        val barEntries2 = ArrayList<BarEntry>()
+        val barEntries3 = ArrayList<BarEntry>()
+        val barEntries4 = ArrayList<BarEntry>()
+
+        barEntries1.add(BarEntry(1f, 250f))
+        barEntries1.add(BarEntry(1f, 150f))
+        barEntries1.add(BarEntry(1f, 100f))
+        barEntries1.add(BarEntry(1f, 200f))
+        barEntries1.add(BarEntry(1f, 160f))
+
+        barEntries2.add(BarEntry(2f, 182f))
+        barEntries2.add(BarEntry(2f, 182f))
+        barEntries2.add(BarEntry(2f, 182f))
+        barEntries2.add(BarEntry(2f, 182f))
+        barEntries2.add(BarEntry(2f, 182f))
+
+        barEntries3.add(BarEntry(3f, 182f))
+        barEntries3.add(BarEntry(3f, 182f))
+        barEntries3.add(BarEntry(3f, 182f))
+        barEntries3.add(BarEntry(3f, 182f))
+        barEntries3.add(BarEntry(3f, 182f))
+
+        barEntries4.add(BarEntry(4f, 250f))
+        barEntries4.add(BarEntry(4f, 150f))
+        barEntries4.add(BarEntry(4f, 100f))
+        barEntries4.add(BarEntry(4f, 200f))
+        barEntries4.add(BarEntry(4f, 160f))
+
+        val barDataSet1 = BarDataSet(barEntries1, "Belum diproses")
+        barDataSet1.color = Color.parseColor("#616161")
+        val barDataSet2 = BarDataSet(barEntries2, "Sedang diproses")
+        barDataSet2.color = Color.parseColor("#FFFFEB3B")
+        val barDataSet3 = BarDataSet(barEntries3, "Selsai") //bagian kene sing error e
+        barDataSet3.color = Color.parseColor("#00FF00")
+        val barDataSet4 = BarDataSet(barEntries4, "Ditolak") // bagian kene kedik
+        barDataSet4.color = Color.parseColor("#FF0000")
+
+        barChart?.animateY(3000)
+        val year = arrayOf("2018", "2019", "2020", "2021")
+        val data = BarData(barDataSet1, barDataSet2, barDataSet3, barDataSet4)
+        barChart?.data = data
+
+
+        val xAxis = barChart?.xAxis
+        xAxis?.setCenterAxisLabels(true)
+        xAxis?.position = XAxis.XAxisPosition.BOTTOM
+        xAxis?.setDrawGridLines(false)
+        xAxis?.granularity = 1.1666f // only intervals of 1 day
+        xAxis?.axisMinimum = 1f
+
+        val leftAxis: YAxis? = barChart?.axisLeft
+        leftAxis?.textColor = Color.BLACK
+        leftAxis?.setDrawGridLines(false)
+        leftAxis?.granularity = 2f
+        leftAxis?.setLabelCount(8, true)
+
+        barChart?.setFitBars(true)
+        barChart?.axisRight?.isEnabled = false
+        barChart?.setScaleEnabled(false)
+        barChart?.description?.isEnabled = false
+        barChart?.setPinchZoom(false)
+        barChart?.setDrawGridBackground(false)
+
+
+        xAxis?.valueFormatter = IndexAxisValueFormatter(year)
+        barChart?.axisLeft?.axisMinimum = 0f
+        val barSpace = 0f
+        val groupSpace = 0.35f
+        val groupCount = 4
+
+        //IMPORTANT ***
+        data.barWidth = 0.2f
+        barChart?.xAxis?.axisMinimum = 0f
+        barChart?.xAxis?.axisMaximum = 0 + barChart?.barData?.getGroupWidth(groupSpace, barSpace) !!* groupCount
+        barChart?.groupBars(0f, groupSpace, barSpace)
+        barChart?.invalidate()
+
         return root
     }
+
 
     fun getRiwayatBelum(status: String, idPengguna: String) {
         val stringRequest = object : StringRequest(
@@ -129,9 +211,16 @@ class AkunFragment : Fragment() {
                             val riwayat = RiwayatModel(riwayatJson.getString("count"))
 
                             belum.text = riwayat.count
+
+                            cv_b_diproses.setOnClickListener {
+                                val intent = Intent(context, RiwayatPengaduan::class.java)
+                                intent.putExtra("status", status)
+                                startActivity(intent)
+                            }
+
                         }
                     } else {
-                        Toast.makeText(requireContext(), "GAGAL", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "Data Kosong", Toast.LENGTH_SHORT).show()
                     }
                 } catch (e: JSONException) {
                     e.printStackTrace()
@@ -169,9 +258,14 @@ class AkunFragment : Fragment() {
                             val riwayat = RiwayatModel(riwayatJson.getString("count"))
 
                             sedang.text = riwayat.count
+                            cv_s_diproses.setOnClickListener {
+                                val intent = Intent(context, RiwayatPengaduan::class.java)
+                                intent.putExtra("status", status)
+                                startActivity(intent)
+                            }
                         }
                     } else {
-                        Toast.makeText(requireContext(), "GAGAL", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "Data Kosong", Toast.LENGTH_SHORT).show()
                     }
                 } catch (e: JSONException) {
                     e.printStackTrace()
@@ -209,9 +303,14 @@ class AkunFragment : Fragment() {
                             val riwayat = RiwayatModel(riwayatJson.getString("count"))
 
                             selesai.text = riwayat.count
+                            cv_selesai.setOnClickListener {
+                                val intent = Intent(context, RiwayatPengaduan::class.java)
+                                intent.putExtra("status", status)
+                                startActivity(intent)
+                            }
                         }
                     } else {
-                        Toast.makeText(requireContext(), "GAGAL", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "Data Kosong", Toast.LENGTH_SHORT).show()
                     }
                 } catch (e: JSONException) {
                     e.printStackTrace()
@@ -248,9 +347,14 @@ class AkunFragment : Fragment() {
                                     val riwayat = RiwayatModel(riwayatJson.getString("count"))
 
                                     tolak.text = riwayat.count
+                                    cv_tolak.setOnClickListener {
+                                        val intent = Intent(context, RiwayatPengaduan::class.java)
+                                        intent.putExtra("status", status)
+                                        startActivity(intent)
+                                    }
                                 }
                             } else {
-                                Toast.makeText(requireContext(), "GAGAL", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(requireContext(), "Data Kosong", Toast.LENGTH_SHORT).show()
                             }
                         } catch (e: JSONException) {
                             e.printStackTrace()

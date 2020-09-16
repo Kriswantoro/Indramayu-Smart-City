@@ -9,6 +9,9 @@ object EndPoint {
     //getpengaduan
     val URL_GET_PENGADUAN = URL_ROOT + "getpengaduan"
 
+    //getrpengaduan
+    val URL_GET_RPENGADUAN = URL_ROOT + "getrpengaduan"
+
     //postpengaduan
     val URL_POST_PENGADUAN = URL_ROOT + "postpengaduan"
 
@@ -36,9 +39,15 @@ object EndPoint {
     //register
     val URL_REGISTER = URL_ROOT + "postregister"
 
+    //daftarnik
+    val URL_DAFTARNIK = URL_ROOT + "postdaftarnik"
+
     //riwayat
     val URL_RIWAYAT = URL_ROOT + "getriwayat"
 
     //updateuser
     val URL_UPDATE_USER = URL_ROOT + "updateuser"
+
+    //riwayat
+    val URL_RIWAYAT_PENGADUAN = URL_ROOT + "getriwayatpengaduan"
 }

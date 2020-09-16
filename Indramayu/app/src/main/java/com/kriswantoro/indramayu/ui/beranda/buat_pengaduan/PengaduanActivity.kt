@@ -90,7 +90,8 @@ class PengaduanActivity : AppCompatActivity() {
 
         btn_informasi.setOnClickListener {
             AlertDialog.Builder(this)
-                .setTitle("Alert!")
+                .setIcon(R.drawable.icon)
+                .setTitle("Informasi Smart City")
                 .setMessage("Apakah anda mengerti")
                 .setMessage(R.string.informasi)
                 .setPositiveButton("Ya") { _, _ -> }

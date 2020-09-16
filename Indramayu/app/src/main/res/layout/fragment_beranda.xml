@@ -11,6 +11,16 @@
         android:layout_height="wrap_content"
         android:background="@drawable/ic_bg_home2">
 
+        <TextView
+            android:id="@+id/tentang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="10dp"
+
+            android:layout_marginTop="10dp"
+            android:drawableEnd="@drawable/info" />
+
         <com.mikhaellopez.circularimageview.CircularImageView
             android:id="@+id/foto_profil"
             android:layout_width="64dp"

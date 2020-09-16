@@ -22,7 +22,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:targetApi="m">
-        <activity android:name=".ui.akun.RiwayatPengaduan"></activity>
+        <activity android:name=".verifikasi.HelpActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".verifikasi.DaftarNIKActivity" />
+        <activity android:name=".ui.akun.RiwayatPengaduan"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
